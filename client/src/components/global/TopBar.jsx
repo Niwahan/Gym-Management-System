@@ -8,7 +8,7 @@ import {
   ArrowDropDownOutlined,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import profileImage from "images/ProfileImage.jpg";
 import {
   AppBar,
@@ -20,13 +20,18 @@ import {
   Button,
   Typography,
   Menu,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 // For Theme
 import { setMode } from "state";
 
+import { useNavigate } from "react-router-dom";
+import { logout } from "state/actions/userActions";
+
 export default function TopBar(props) {
-  const { user, isSideBarOpen, setIsSideBarOpen } = props;
+  const navigate = useNavigate();
+
+  const { isSideBarOpen, setIsSideBarOpen } = props;
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -35,6 +40,15 @@ export default function TopBar(props) {
   const isOpen = Boolean(anchorEl);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  // eslint-disable-next-line
+  const { userInfo } = userLogin;
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <AppBar
@@ -102,13 +116,15 @@ export default function TopBar(props) {
                   fontSize="0.85rem"
                   sx={{ color: theme.palette.secondary[100] }}
                 >
-                  {user.name}
+                  Niwahang
+                  {/* {user.name} */}
                 </Typography>
                 <Typography
                   fontSize="0.75rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
-                  {user.occupation}
+                  Admin
+                  {/* {user.occupation} */}
                 </Typography>
               </Box>
               <ArrowDropDownOutlined
@@ -121,7 +137,7 @@ export default function TopBar(props) {
               onClose={handleClose}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
-              <MenuItem onClick = {handleClose}>Log Out</MenuItem>
+              <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
             </Menu>
           </FlexBetween>
         </FlexBetween>
