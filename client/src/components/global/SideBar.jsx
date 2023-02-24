@@ -33,7 +33,7 @@ import FlexBetween from "components/FlexBetween";
 import profileImage from "images/ProfileImage.jpg";
 
 export default function SideBar({
-  user,
+  // user,
   drawerWidth,
   isSideBarOpen,
   setIsSideBarOpen,
@@ -205,13 +205,15 @@ export default function SideBar({
                     fontSize="0.9rem"
                     sx={{ color: theme.palette.secondary[100] }}
                   >
-                    {user.name}
+                    Niwahang
+                    {/* {user.name} */}
                   </Typography>
                   <Typography
                     fontSize="0.8rem"
                     sx={{ color: theme.palette.secondary[200] }}
                   >
-                    {user.occupation}
+                    Admin
+                    {/* {user.occupation} */}
                   </Typography>
                 </Box>
                 <SettingsOutlined
