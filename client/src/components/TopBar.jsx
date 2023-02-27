@@ -23,7 +23,7 @@ import {
   MenuItem,
 } from "@mui/material";
 // For Theme
-import { setMode } from "state";
+import { setMode } from "state/modeTogglerSlice";
 
 import { useNavigate } from "react-router-dom";
 import { logout } from "state/actions/userActions";
@@ -64,7 +64,7 @@ export default function TopBar(props) {
           <IconButton onClick={() => setIsSideBarOpen(!isSideBarOpen)}>
             <MenuIcon />
           </IconButton>
-          <FlexBetween
+          {/* <FlexBetween
             //For Theme
             backgroundColor={theme.palette.background.alt}
             borderRadius="9px"
@@ -75,7 +75,7 @@ export default function TopBar(props) {
             <IconButton>
               <Search />
             </IconButton>
-          </FlexBetween>
+          </FlexBetween> */}
         </FlexBetween>
 
         {/* Right Side */}
@@ -87,9 +87,9 @@ export default function TopBar(props) {
               <LightModeOutlined sx={{ fontSize: "25px" }} />
             )}
           </IconButton>
-          <IconButton>
+          {/* <IconButton>
             <SettingsOutlined sx={{ fontSize: "25px" }} />
-          </IconButton>
+          </IconButton> */}
           <FlexBetween>
             <Button
               onClick={handleClick}
@@ -116,15 +116,15 @@ export default function TopBar(props) {
                   fontSize="0.85rem"
                   sx={{ color: theme.palette.secondary[100] }}
                 >
-                  Niwahang
-                  {/* {user.name} */}
+                
+                  {userInfo.name}
                 </Typography>
                 <Typography
                   fontSize="0.75rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
-                  Admin
-                  {/* {user.occupation} */}
+                  
+                  {userInfo.role.charAt(0).toUpperCase()+ userInfo.role.slice(1).toLowerCase()}
                 </Typography>
               </Box>
               <ArrowDropDownOutlined

@@ -35,21 +35,23 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn({ history }) {
+export default function SignIn() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-
   const userLogin = useSelector((state) => state.userLogin);
+
   const { loading, error, userInfo } = userLogin;
+
+
 
   useEffect(() => {
     if (userInfo) {
       navigate("/dashboard");
     }
-  }, [history, navigate, userInfo]);
+  }, [navigate, userInfo]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

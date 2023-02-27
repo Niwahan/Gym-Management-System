@@ -2,14 +2,10 @@ import mongoose from "mongoose";
 
 const MemberSchema = new mongoose.Schema(
   {
+    user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
     MemberID: { type: mongoose.Types.ObjectId, required: true },
-    FullName: { type: String, required: true },
-    Email: { type: String, required: true },
     Gender: { type: String, required: true },
     DateOfRegistration: { type: Date, required: true },
-    ServiceID: { type: mongoose.Types.ObjectId, required: true },
-    UserName: { type: String, required: true },
-    Password: { type: String, required: true },
     PaidDate: { type: Date, required: true },
     Status: { type: String, required: true },
     AttendanceCount: { type: Number, required: true },
@@ -18,8 +14,8 @@ const MemberSchema = new mongoose.Schema(
     InitialBodyType: { type: String, required: true },
     FinalBodyType: { type: String, required: true },
     ProgressDate: { type: Date, required: true },
-    Trainer: { type: mongoose.Types.ObjectId, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
+    Trainer: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Trainers" },
+    ServiceID: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Services" },
   },
   {
     timeStamps: true,
