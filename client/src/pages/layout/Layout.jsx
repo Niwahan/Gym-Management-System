@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 // import { useSelector } from "react-redux";
-import TopBar from "components/global/TopBar";
-import SideBar from "components/global/SideBar";
+import TopBar from "components/TopBar";
+import SideBar from "components/SideBar";
 // import { useGetUserQuery } from "state/api";
 
 export default function Layout() {

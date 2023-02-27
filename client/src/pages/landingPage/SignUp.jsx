@@ -33,12 +33,13 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp({history}) {
+export default function SignUp() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  // eslint-disable-next-line
   const [pic, setPic] = useState(
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   );
@@ -46,14 +47,15 @@ export default function SignUp({history}) {
 
   const dispatch = useDispatch();
 
-  const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, userInfo } = userRegister || {};
+  const userRegistration = useSelector((state) => state.userRegistration);
+
+  const {userInfo, loading, error  } = userRegistration;
 
   useEffect(() => {
     if (userInfo) {
       navigate("/dashboard");
     }
-  }, [history, navigate, userInfo]);
+  }, [navigate, userInfo]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

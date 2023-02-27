@@ -44,10 +44,10 @@ export default function SideBar({
       text: "Dashboard",
       icon: <HomeOutlined />,
     },
-    {
-      text: "Client Facing",
-      icon: null,
-    },
+    // {
+    //   text: " ",
+    //   icon: null,
+    // },
     {
       text: "Members",
       icon: <Person />,
@@ -61,24 +61,16 @@ export default function SideBar({
       icon: <FitnessCenter />,
     },
     {
-      text: "Sales",
-      icon: null,
-    },
-    {
       text: "Attendance",
       icon: <TodayOutlined />,
     },
     {
-      text: "Payment",
+      text: "Payments",
       icon: <PointOfSaleOutlined />,
     },
     {
       text: "Services",
       icon: <SportsGymnastics />,
-    },
-    {
-      text: "Management",
-      icon: null,
     },
     {
       text: "Members Progress",
@@ -146,7 +138,7 @@ export default function SideBar({
                     </Typography>
                   );
                 }
-                const lcText = text.toLowerCase();
+                const lcText = text.toLowerCase().replace(" ", "_");
 
                 return (
                   <ListItem key={text} disablePadding>
@@ -187,7 +179,7 @@ export default function SideBar({
               })}
             </List>
           </Box>
-          <Box position="relative" bottom="0rem">
+          {/* <Box position="relative" bottom="0rem">
             <Divider />
             <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
               <Box
@@ -199,28 +191,30 @@ export default function SideBar({
                 borderRadius="50%"
                 sx={{ objectFit: "cover" }}
               />
-                <Box textAlign="left">
-                  <Typography
-                    fontWeight="bold"
-                    fontSize="0.9rem"
-                    sx={{ color: theme.palette.secondary[100] }}
-                  >
-                    Niwahang
-                    {/* {user.name} */}
-                  </Typography>
-                  <Typography
-                    fontSize="0.8rem"
-                    sx={{ color: theme.palette.secondary[200] }}
-                  >
-                    Admin
-                    {/* {user.occupation} */}
-                  </Typography>
-                </Box>
-                <SettingsOutlined
-                  sx={{ color: theme.palette.secondary[300], fontSize: "25px", cursor: 'pointer' }}
-                /> 
+              <Box textAlign="left">
+                <Typography
+                  fontWeight="bold"
+                  fontSize="0.9rem"
+                  sx={{ color: theme.palette.secondary[100] }}
+                >
+                  Niwahang
+                </Typography>
+                <Typography
+                  fontSize="0.8rem"
+                  sx={{ color: theme.palette.secondary[200] }}
+                >
+                  Admin
+                </Typography>
+              </Box>
+              <SettingsOutlined
+                sx={{
+                  color: theme.palette.secondary[300],
+                  fontSize: "25px",
+                  cursor: "pointer",
+                }}
+              />
             </FlexBetween>
-          </Box>
+          </Box> */}
         </Drawer>
       )}
     </Box>
