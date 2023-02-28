@@ -60,15 +60,13 @@ export default function TrainerDetails() {
   const {
     loading: loadingDelete,
     error: errorDelete,
-    success: successDelete,
+    // success: successDelete,
   } = trainerDelete;
 
   const deleteHandler = (id) => {
     dispatch(deleteTrainers(id));
-    navigate("/trainers")
+    navigate("/trainers");
   };
-
-
 
   const editModeHandler = () => {
     setEditMode(true);

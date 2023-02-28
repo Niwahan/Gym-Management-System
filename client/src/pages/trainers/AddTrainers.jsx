@@ -38,7 +38,6 @@ export default function AddTrainers() {
 
   const trainerCreate = useSelector((state) => state.trainerCreate);
   const { loading, error, success } = trainerCreate;
-  console.log(trainerCreate);
 
   const resetHandler = () => {
     setEmail("");
