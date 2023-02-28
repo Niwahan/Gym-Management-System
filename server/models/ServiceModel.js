@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const ServiceSchema = new mongoose.Schema(
   {
-    Name: { type: String, required: true },
-    Price: { type: Number, required: true },
-    Period: { type: Number, required: true },
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    price: { type: Number, required: true },
   },
   {
     timeStamps: true,

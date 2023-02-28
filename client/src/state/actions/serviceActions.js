@@ -1,23 +1,23 @@
 import axios from "axios";
 import {
-  TRAINER_FAIL,
-  TRAINER_REQUEST,
-  TRAINER_SUCCESS,
-  TRAINER_CREATE_FAIL,
-  TRAINER_CREATE_REQUEST,
-  TRAINER_CREATE_SUCCESS,
-  TRAINER_UPDATE_REQUEST,
-  TRAINER_UPDATE_FAIL,
-  TRAINER_UPDATE_SUCCESS,
-  TRAINER_DELETE_REQUEST,
-  TRAINER_DELETE_SUCCESS,
-  TRAINER_DELETE_FAIL,
-} from "state/constants/trainerConstants";
+  SERVICE_FAIL,
+  SERVICE_REQUEST,
+  SERVICE_SUCCESS,
+  SERVICE_CREATE_FAIL,
+  SERVICE_CREATE_REQUEST,
+  SERVICE_CREATE_SUCCESS,
+  SERVICE_UPDATE_REQUEST,
+  SERVICE_UPDATE_FAIL,
+  SERVICE_UPDATE_SUCCESS,
+  SERVICE_DELETE_REQUEST,
+  SERVICE_DELETE_SUCCESS,
+  SERVICE_DELETE_FAIL,
+} from "state/constants/serviceConstants";
 
-export const getTrainers = () => async (dispatch, getState) => {
+export const getServices = () => async (dispatch, getState) => {
   try {
     dispatch({
-      type: TRAINER_REQUEST,
+      type: SERVICE_REQUEST,
     });
 
     const {
@@ -30,10 +30,10 @@ export const getTrainers = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/trainers`, config);
+    const { data } = await axios.get(`/api/services`, config);
 
     dispatch({
-      type: TRAINER_SUCCESS,
+      type: SERVICE_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -42,18 +42,18 @@ export const getTrainers = () => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({
-      type: TRAINER_FAIL,
+      type: SERVICE_FAIL,
       payload: message,
     });
   }
 };
 
-export const createTrainers =
-  (name, email, password, address, phoneNumber, experience) =>
+export const createServices =
+  (name, description, price) =>
   async (dispatch, getState) => {
     try {
       dispatch({
-        type: TRAINER_CREATE_REQUEST,
+        type: SERVICE_CREATE_REQUEST,
       });
 
       const {
@@ -68,13 +68,13 @@ export const createTrainers =
       };
 
       const { data } = await axios.post(
-        `/api/trainers/create`,
-        { name, email, password, address, phoneNumber, experience },
+        `/api/services/create`,
+        { name, description, price },
         config
       );
 
       dispatch({
-        type: TRAINER_CREATE_SUCCESS,
+        type: SERVICE_CREATE_SUCCESS,
         payload: data,
       });
     } catch (error) {
@@ -83,18 +83,18 @@ export const createTrainers =
           ? error.response.data.message
           : error.message;
       dispatch({
-        type: TRAINER_CREATE_FAIL,
+        type: SERVICE_CREATE_FAIL,
         payload: message,
       });
     }
   };
 
-export const updateTrainers =
-  (id, name, email, address, phoneNumber, experience) =>
+export const updateServices =
+  (id, name, description, price) =>
   async (dispatch, getState) => {
     try {
       dispatch({
-        type: TRAINER_UPDATE_REQUEST,
+        type: SERVICE_UPDATE_REQUEST,
       });
 
       const {
@@ -109,13 +109,13 @@ export const updateTrainers =
       };
 
       const { data } = await axios.put(
-        `/api/trainers/${id}`,
-        { name, email, address, phoneNumber, experience },
+        `/api/services/${id}`,
+        { name, description, price },
         config
       );
 
       dispatch({
-        type: TRAINER_UPDATE_SUCCESS,
+        type: SERVICE_UPDATE_SUCCESS,
         payload: data,
       });
     } catch (error) {
@@ -124,16 +124,16 @@ export const updateTrainers =
           ? error.response.data.message
           : error.message;
       dispatch({
-        type: TRAINER_UPDATE_FAIL,
+        type: SERVICE_UPDATE_FAIL,
         payload: message,
       });
     }
   };
 
-export const deleteTrainers = (id) => async (dispatch, getState) => {
+export const deleteServices = (id) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: TRAINER_DELETE_REQUEST,
+      type: SERVICE_DELETE_REQUEST,
     });
 
     const {
@@ -146,10 +146,10 @@ export const deleteTrainers = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/trainers/${id}`, config);
+    const { data } = await axios.delete(`/api/services/${id}`, config);
 
     dispatch({
-      type: TRAINER_DELETE_SUCCESS,
+      type: SERVICE_DELETE_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -158,7 +158,7 @@ export const deleteTrainers = (id) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({
-      type: TRAINER_DELETE_FAIL,
+      type: SERVICE_DELETE_FAIL,
       payload: message,
     });
   }

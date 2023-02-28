@@ -22,6 +22,8 @@ import DietPlans from "pages/dietPlans/DietPlans";
 import AddMembers from "pages/members/AddMembers";
 import AddTrainers from "pages/trainers/AddTrainers";
 import TrainerDetails from "pages/trainers/TrainerDetails";
+import AddServices from "pages/services/AddServices";
+import ServiceDetails from "pages/services/ServiceDetails";
 
 function App() {
   // For Theme
@@ -40,14 +42,17 @@ function App() {
               {/* <Route path="/" element={<Navigate to="/dashboard" replace />}/> */}
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/members" element={<Members />}></Route>
-              <Route path="/trainers" element={<Trainers />} />
-              <Route path="/trainers/:id" element={<TrainerDetails />} />
               <Route path="/add-members" element={<AddMembers />} />
+              <Route path="/trainers" element={<Trainers />} />
               <Route path="/trainers/add-trainers" element={<AddTrainers />} />
+              <Route path="/trainers/:id" element={<TrainerDetails />} />
               <Route path="/equipments" element={<Equipments />} />
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/payments" element={<Payment />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/services/add-services" element={<AddServices />} />
+              <Route path="/services/:id" element={<ServiceDetails />} />
+
               <Route path="/members_progress" element={<MembersProgress />} />
               <Route path="/workout_plans" element={<WorkOutPlans />} />
               <Route path="/diet_plans" element={<DietPlans />} />

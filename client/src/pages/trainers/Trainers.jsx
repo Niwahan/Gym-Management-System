@@ -4,7 +4,7 @@ import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { listTrainers } from "state/actions/trainerActions";
+import { getTrainers } from "state/actions/trainerActions";
 import { useState } from "react";
 
 export default function Trainers() {
@@ -13,11 +13,11 @@ export default function Trainers() {
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
 
-  const getTrainers = useSelector((state) => state.trainers);
-  const { loading, error, trainersInfo } = getTrainers;
+  const listTrainers = useSelector((state) => state.trainers);
+  const { loading, error, trainersInfo } = listTrainers;
 
   useEffect(() => {
-    dispatch(listTrainers());
+    dispatch(getTrainers());
   }, [dispatch]);
 
   const columns = [

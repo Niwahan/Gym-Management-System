@@ -12,8 +12,6 @@ import userRoutes from "./routes/userRoutes.js";
 import memberRoutes from "./routes/memberRoutes.js";
 import trainerRoutes from "./routes/trainerRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
-import clientRoutes from "./routes/client.js";
-import generalRoutes from "./routes/general.js";
 
 // Data Import
 import User from "./models/UserModel.js";
@@ -22,9 +20,9 @@ import Admin from "./models/Admin.js";
 import Announcements from "./models/Announcements.js";
 import Attendance from "./models/Attendance.js";
 import DietPlan from "./models/DietPlan.js";
-import Equipments from "./models/Equipments.js";
+import Equipment from "./models/EquipmentModel.js";
 import Member from "./models/Member.js";
-import Services from "./models/Services.js";
+import Service from "./models/ServiceModel.js";
 import WorkoutPlan from "./models/WorkoutPlan.js";
 
 import { dataUser } from "./data/index.js";
