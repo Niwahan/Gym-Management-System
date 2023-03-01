@@ -24,6 +24,8 @@ import AddTrainers from "pages/trainers/AddTrainers";
 import TrainerDetails from "pages/trainers/TrainerDetails";
 import AddServices from "pages/services/AddServices";
 import ServiceDetails from "pages/services/ServiceDetails";
+import AddEquipments from "pages/equipments/AddEquipments";
+import EquipmentDetails from "pages/equipments/EquipmentDetails";
 
 function App() {
   // For Theme
@@ -47,6 +49,8 @@ function App() {
               <Route path="/trainers/add-trainers" element={<AddTrainers />} />
               <Route path="/trainers/:id" element={<TrainerDetails />} />
               <Route path="/equipments" element={<Equipments />} />
+              <Route path="/equipments/add-equipments" element={<AddEquipments />} />
+              <Route path="/equipments/:id" element={<EquipmentDetails />} />
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/payments" element={<Payment />} />
               <Route path="/services" element={<Services />} />

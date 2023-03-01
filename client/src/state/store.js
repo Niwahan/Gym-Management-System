@@ -14,6 +14,7 @@ import {
   serviceReducer,
   serviceUpdateReducer,
 } from "./reducers/serviceReducers";
+import { equipmentCreateReducer, equipmentDeleteReducer, equipmentReducer, equipmentUpdateReducer } from "./reducers/equipmentReducers";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -36,6 +37,10 @@ const store = configureStore({
     serviceCreate: serviceCreateReducer,
     serviceUpdate: serviceUpdateReducer,
     serviceDelete: serviceDeleteReducer,
+    equipments: equipmentReducer,
+    equipmentCreate: equipmentCreateReducer,
+    equipmentUpdate: equipmentUpdateReducer,
+    equipmentDelete: equipmentDeleteReducer
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();
