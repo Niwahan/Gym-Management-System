@@ -41,12 +41,11 @@ export default function AddEquipments() {
       createEquipments(name, description, quantity, price, purchasedDate)
     );
     if (!name || !description || !quantity || !price || !purchasedDate) return;
-
-    resetHandler();
   };
   useEffect(() => {
     if (success) {
       dispatch({ type: "EQUIPMENT_CREATE_RESET" });
+      resetHandler();
       navigate("/equipments");
     }
   }, [success, dispatch, navigate]);

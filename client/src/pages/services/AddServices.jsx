@@ -35,12 +35,11 @@ export default function AddServices() {
     event.preventDefault();
     dispatch(createServices(name, description, price));
     if (!name || !description || !price) return;
-
-    resetHandler();
   };
   useEffect(() => {
     if (success) {
       dispatch({ type: "SERVICE_CREATE_RESET" });
+      resetHandler();
       navigate("/services");
     }
   }, [success, dispatch, navigate]);

@@ -3,8 +3,6 @@ import {
   LightModeOutlined,
   DarkModeOutlined,
   Menu as MenuIcon,
-  Search,
-  SettingsOutlined,
   ArrowDropDownOutlined,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
@@ -13,7 +11,6 @@ import profileImage from "images/ProfileImage.jpg";
 import {
   AppBar,
   IconButton,
-  InputBase,
   Toolbar,
   useTheme,
   Box,
@@ -42,7 +39,6 @@ export default function TopBar(props) {
   const handleClose = () => setAnchorEl(null);
 
   const userLogin = useSelector((state) => state.userLogin);
-  // eslint-disable-next-line
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {
@@ -64,18 +60,6 @@ export default function TopBar(props) {
           <IconButton onClick={() => setIsSideBarOpen(!isSideBarOpen)}>
             <MenuIcon />
           </IconButton>
-          {/* <FlexBetween
-            //For Theme
-            backgroundColor={theme.palette.background.alt}
-            borderRadius="9px"
-            gap="3rem"
-            p="0.1rem 1.5rem"
-          >
-            <InputBase placeholder="Search..." />
-            <IconButton>
-              <Search />
-            </IconButton>
-          </FlexBetween> */}
         </FlexBetween>
 
         {/* Right Side */}
@@ -87,9 +71,6 @@ export default function TopBar(props) {
               <LightModeOutlined sx={{ fontSize: "25px" }} />
             )}
           </IconButton>
-          {/* <IconButton>
-            <SettingsOutlined sx={{ fontSize: "25px" }} />
-          </IconButton> */}
           <FlexBetween>
             <Button
               onClick={handleClick}

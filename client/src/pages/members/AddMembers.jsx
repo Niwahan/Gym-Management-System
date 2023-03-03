@@ -64,7 +64,7 @@ export default function AddMembers() {
         phoneNumber,
         dateOfRegistration,
         trainerId,
-        serviceId,
+        serviceId
       )
     );
     if (
@@ -78,8 +78,6 @@ export default function AddMembers() {
       !serviceId
     )
       return;
-
-    // resetHandler();
   };
 
   useEffect(() => {
@@ -92,6 +90,7 @@ export default function AddMembers() {
   useEffect(() => {
     if (success) {
       dispatch({ type: "MEMBER_CREATE_RESET" });
+      resetHandler();
       navigate("/members");
     }
   }, [success, dispatch, navigate]);

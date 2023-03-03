@@ -55,12 +55,11 @@ export default function AddTrainers() {
     );
     if (!name || !email || !password || !address || !phoneNumber || !experience)
       return;
-
-    resetHandler();
   };
   useEffect(() => {
     if (success) {
       dispatch({ type: "TRAINER_CREATE_RESET" });
+      resetHandler();
       navigate("/trainers");
     }
   }, [success, dispatch, navigate]);
@@ -75,7 +74,7 @@ export default function AddTrainers() {
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ mt:6, ml: 5, mr: 5 }}
+        sx={{ mt: 6, ml: 5, mr: 5 }}
       >
         <Grid container spacing={2}>
           <Grid item xs={12}>

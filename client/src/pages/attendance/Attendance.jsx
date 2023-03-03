@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, useTheme, CircularProgress, Alert } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
@@ -11,7 +10,6 @@ import { useState } from "react";
 export default function Attendance() {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
   const [clickedMembers, setClickedMembers] = useState({});
 
@@ -22,7 +20,7 @@ export default function Attendance() {
   const {
     loading: loadingAttendance,
     error: errorAttendance,
-    success: successAttendance,
+    // success: successAttendance,
   } = checkIn;
 
   useEffect(() => {
