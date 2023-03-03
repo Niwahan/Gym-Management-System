@@ -26,6 +26,7 @@ import {
   memberReducer,
   memberUpdateReducer,
 } from "./reducers/memberReducers";
+import { memberAttendanceCheckinReducer } from "./reducers/attendanceReducers";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -58,6 +59,7 @@ const store = configureStore({
     memberCreate: memberCreateReducer,
     memberUpdate: memberUpdateReducer,
     memberDelete: memberDeleteReducer,
+    memberAttendanceCheckin: memberAttendanceCheckinReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();

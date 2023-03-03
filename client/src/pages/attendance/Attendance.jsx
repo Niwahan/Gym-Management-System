@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Button, useTheme, CircularProgress, Alert } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
+import { memberAttendanceCheckin } from "state/actions/attendanceActions";
 import { useState } from "react";
 
 export default function Attendance() {
@@ -12,9 +13,17 @@ export default function Attendance() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
+  const [clickedMembers, setClickedMembers] = useState({});
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;
+
+  const checkIn = useSelector((state) => state.memberAttendanceCheckin);
+  const {
+    loading: loadingAttendance,
+    error: errorAttendance,
+    success: successAttendance,
+  } = checkIn;
 
   useEffect(() => {
     dispatch(getMembers());
@@ -41,33 +50,54 @@ export default function Attendance() {
     {
       field: "attendanceCount",
       headerName: "Attendance Count",
-      flex: 0.5
+      flex: 0.5,
+      valueGetter: (params) => {
+        const attendanceDates = params.row.attendance;
+        return attendanceDates ? attendanceDates.length : 0;
+      },
     },
     {
       field: "actions",
       headerName: "Actions",
       sortable: false,
       width: 100,
-      renderCell: (params) => (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            navigate(`/members/${params.row._id}`);
-          }}
-        >
-          More Info{" "}
-        </Button>
-      ),
+      renderCell: (params) => {
+        const memberId = params.row._id;
+        const clicked = clickedMembers[memberId];
+        const lastClickedDate = new Date(clicked);
+        const currentDate = new Date();
+        const isButtonDisabled =
+          clicked &&
+          lastClickedDate.toDateString() === currentDate.toDateString();
+
+        const handleClick = () => {
+          setClickedMembers({
+            ...clickedMembers,
+            [memberId]: new Date(),
+          });
+
+          dispatch(memberAttendanceCheckin(memberId));
+        };
+
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={isButtonDisabled}
+            onClick={handleClick}
+          >
+            {isButtonDisabled ? "Checked In" : "Check In"}
+          </Button>
+        );
+      },
     },
   ];
-  function getCurrentDate() {
-    return new Date();
-}
   return (
     <>
       <Box m="1.5rem 2.5rem">
         <Header title="Attendance" subtitle="" />
+        {loadingAttendance && <CircularProgress />}
+        {errorAttendance && <Alert severity="info">{errorAttendance}</Alert>}
         <Box
           mt="40px"
           height="75vh"
@@ -108,7 +138,7 @@ export default function Attendance() {
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 15, 20]}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            components={{ Toolbar: GridToolbar }}
+            // components={{ Toolbar: GridToolbar }}
           />
         </Box>
       </Box>

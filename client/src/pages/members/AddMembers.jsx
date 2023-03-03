@@ -54,8 +54,6 @@ export default function AddMembers() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const currentDate = new Date().toISOString().substr(0, 10);
-    setDateOfRegistration(currentDate);
     dispatch(
       createMembers(
         name,
@@ -81,12 +79,14 @@ export default function AddMembers() {
     )
       return;
 
-    resetHandler();
+    // resetHandler();
   };
 
   useEffect(() => {
     dispatch(getTrainers());
     dispatch(getServices());
+    const currentDate = new Date().toISOString().substr(0, 10);
+    setDateOfRegistration(currentDate);
   }, [dispatch]);
 
   useEffect(() => {
