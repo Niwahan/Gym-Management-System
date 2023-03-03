@@ -12,13 +12,13 @@ import {
   TRAINER_UPDATE_SUCCESS,
   TRAINER_DELETE_REQUEST,
   TRAINER_DELETE_SUCCESS,
-  TRAINER_DELETE_FAIL
+  TRAINER_DELETE_FAIL,
 } from "state/constants/trainerConstants";
 
 export const trainerReducer = (state = { trainers: [] }, action) => {
   switch (action.type) {
     case TRAINER_REQUEST:
-      return { loading: true };
+      return { loading: true, trainersInfo: [] };
     case TRAINER_SUCCESS:
       return { loading: false, trainersInfo: action.payload };
     case TRAINER_FAIL:
@@ -38,7 +38,7 @@ export const trainerCreateReducer = (state = {}, action) => {
     case TRAINER_CREATE_FAIL:
       return { loading: false, error: action.payload };
     case TRAINER_CREATE_RESET:
-      return {success: false, error: null}
+      return { success: false, error: null };
     default:
       return state;
   }
@@ -53,7 +53,7 @@ export const trainerUpdateReducer = (state = {}, action) => {
     case TRAINER_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     case TRAINER_UPDATE_RESET:
-      return {success: false, error: null}
+      return { success: false, error: null };
     default:
       return state;
   }
