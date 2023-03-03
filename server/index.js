@@ -22,7 +22,7 @@ import Announcements from "./models/Announcements.js";
 import Attendance from "./models/Attendance.js";
 import DietPlan from "./models/DietPlan.js";
 import Equipment from "./models/EquipmentModel.js";
-import Member from "./models/Member.js";
+import Member from "./models/MemberModel.js";
 import Service from "./models/ServiceModel.js";
 import WorkoutPlan from "./models/WorkoutPlan.js";
 

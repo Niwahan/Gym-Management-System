@@ -14,7 +14,18 @@ import {
   serviceReducer,
   serviceUpdateReducer,
 } from "./reducers/serviceReducers";
-import { equipmentCreateReducer, equipmentDeleteReducer, equipmentReducer, equipmentUpdateReducer } from "./reducers/equipmentReducers";
+import {
+  equipmentCreateReducer,
+  equipmentDeleteReducer,
+  equipmentReducer,
+  equipmentUpdateReducer,
+} from "./reducers/equipmentReducers";
+import {
+  memberCreateReducer,
+  memberDeleteReducer,
+  memberReducer,
+  memberUpdateReducer,
+} from "./reducers/memberReducers";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -22,6 +33,8 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage, loading: false, error: null },
+  services: { loading: false, servicesInfo: [] },
+  trainers: { loading: false, trainersInfo: [] },
 };
 
 const store = configureStore({
@@ -40,7 +53,11 @@ const store = configureStore({
     equipments: equipmentReducer,
     equipmentCreate: equipmentCreateReducer,
     equipmentUpdate: equipmentUpdateReducer,
-    equipmentDelete: equipmentDeleteReducer
+    equipmentDelete: equipmentDeleteReducer,
+    members: memberReducer,
+    memberCreate: memberCreateReducer,
+    memberUpdate: memberUpdateReducer,
+    memberDelete: memberDeleteReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();

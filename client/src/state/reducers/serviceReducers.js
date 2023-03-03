@@ -18,7 +18,7 @@ import {
   export const serviceReducer = (state = { services: [] }, action) => {
     switch (action.type) {
       case SERVICE_REQUEST:
-        return { loading: true };
+        return { loading: true, servicesInfo: [] };
       case SERVICE_SUCCESS:
         return { loading: false, servicesInfo: action.payload };
       case SERVICE_FAIL:

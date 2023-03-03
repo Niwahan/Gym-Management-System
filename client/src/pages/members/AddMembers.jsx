@@ -1,155 +1,252 @@
-
-import { Box, Button, TextField } from "@mui/material";
-import { Formik } from "formik";
-import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import {
+  Box,
+  Button,
+  TextField,
+  Grid,
+  Select,
+  CircularProgress,
+  MenuItem,
+  Alert,
+} from "@mui/material";
+// import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-// import React, {useEffect, useState} from 'react';
-
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createMembers } from "state/actions/memberActions";
+import { getTrainers } from "state/actions/trainerActions";
+import { getServices } from "state/actions/serviceActions";
+import { useNavigate } from "react-router-dom";
 
 export default function AddMembers() {
-    const isNonMobile = useMediaQuery("(min-width:600px)");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const handleFormSubmit = (values) => {
-      console.log(values);
-    };
-  
-    return (
-      <Box m="20px">
-        <Header title="CREATE USER" subtitle="Create a New User Profile" />
-  
-        <Formik
-          onSubmit={handleFormSubmit}
-          initialValues={initialValues}
-          validationSchema={checkoutSchema}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <Box
-                display="grid"
-                gap="30px"
-                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                sx={{
-                  "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                }}
-              >
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="First Name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.firstName}
-                  name="firstName"
-                  error={!!touched.firstName && !!errors.firstName}
-                  helperText={touched.firstName && errors.firstName}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Last Name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.lastName}
-                  name="lastName"
-                  error={!!touched.lastName && !!errors.lastName}
-                  helperText={touched.lastName && errors.lastName}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.email}
-                  name="email"
-                  error={!!touched.email && !!errors.email}
-                  helperText={touched.email && errors.email}
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Contact Number"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.contact}
-                  name="contact"
-                  error={!!touched.contact && !!errors.contact}
-                  helperText={touched.contact && errors.contact}
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Address 1"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.address1}
-                  name="address1"
-                  error={!!touched.address1 && !!errors.address1}
-                  helperText={touched.address1 && errors.address1}
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Address 2"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.address2}
-                  name="address2"
-                  error={!!touched.address2 && !!errors.address2}
-                  helperText={touched.address2 && errors.address2}
-                  sx={{ gridColumn: "span 4" }}
-                />
-              </Box>
-              <Box display="flex" justifyContent="end" mt="20px">
-                <Button type="submit" color="secondary" variant="contained">
-                  Create New User
-                </Button>
-              </Box>
-            </form>
-          )}
-        </Formik>
-      </Box>
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [gender, setGender] = useState("");
+  const [trainerId, setTrainer] = useState("");
+  const [serviceId, setService] = useState("");
+  const [dateOfRegistration, setDateOfRegistration] = useState("");
+  // const isNonMobile = useMediaQuery("(min-width:600px)");
+
+  const memberCreate = useSelector((state) => state.memberCreate);
+  const { loading, error, success } = memberCreate;
+
+  const listTrainers = useSelector((state) => state.trainers);
+  const { trainersInfo } = listTrainers;
+
+  const listServices = useSelector((state) => state.services);
+  const { servicesInfo } = listServices;
+
+  const resetHandler = () => {
+    setEmail("");
+    setName("");
+    setPassword("");
+    setAddress("");
+    setPhoneNumber("");
+    setGender("");
+    setTrainer("");
+    setService("");
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const currentDate = new Date().toISOString().substr(0, 10);
+    setDateOfRegistration(currentDate);
+    dispatch(
+      createMembers(
+        name,
+        email,
+        password,
+        gender,
+        address,
+        phoneNumber,
+        dateOfRegistration,
+        trainerId,
+        serviceId,
+      )
     );
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !address ||
+      !phoneNumber ||
+      !gender ||
+      !trainerId ||
+      !serviceId
+    )
+      return;
+
+    resetHandler();
   };
-  
-  const phoneRegExp =
-    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-  
-  const checkoutSchema = yup.object().shape({
-    firstName: yup.string().required("required"),
-    lastName: yup.string().required("required"),
-    email: yup.string().email("invalid email").required("required"),
-    contact: yup
-      .string()
-      .matches(phoneRegExp, "Phone number is not valid")
-      .required("required"),
-    address1: yup.string().required("required"),
-    address2: yup.string().required("required"),
-  });
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    contact: "",
-    address1: "",
-    address2: "",
+
+  useEffect(() => {
+    dispatch(getTrainers());
+    dispatch(getServices());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch({ type: "MEMBER_CREATE_RESET" });
+      navigate("/members");
+    }
+  }, [success, dispatch, navigate]);
+
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
   };
+
+  const handleTrainerChange = (event) => {
+    setTrainer(event.target.value);
+  };
+
+  const handleServiceChange = (event) => {
+    setService(event.target.value);
+  };
+
+  return (
+    <>
+      <Box m="1.5rem 2.5rem">
+        <Header title="Add Member" subtitle="Create a New Member Profile" />
+      </Box>
+      {loading && <CircularProgress />}
+      {error && <Alert severity="error">{error}</Alert>}
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ mt: 6, ml: 5, mr: 5 }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              name="fullName"
+              required
+              fullWidth
+              value={name}
+              id="fullName"
+              label="Full Name"
+              autoFocus
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Select
+              id="gender"
+              value={gender}
+              onChange={handleGenderChange}
+              fullWidth
+              label="Gender"
+              displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Select Gender
+              </MenuItem>
+              <MenuItem value="Male">Male</MenuItem>
+              <MenuItem value="Female">Female</MenuItem>
+              <MenuItem value="Other">Other</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              name="address"
+              label="Address"
+              type="text"
+              id="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              name="phoneNumber"
+              label="Phone Number"
+              id="phoneNumber"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Select
+              id="trainer"
+              value={trainerId}
+              onChange={handleTrainerChange}
+              displayEmpty
+              fullWidth
+              label="Trainer"
+            >
+              <MenuItem value="" disabled>
+                Select trainer
+              </MenuItem>
+              {trainersInfo.map((trainer) => (
+                <MenuItem key={trainer._id} value={trainer._id}>
+                  {trainer.user.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Select
+              id="service"
+              value={serviceId}
+              onChange={handleServiceChange}
+              fullWidth
+              displayEmpty
+              label="Service"
+            >
+              <MenuItem value="" disabled>
+                Select service
+              </MenuItem>
+              {servicesInfo.map((service) => (
+                <MenuItem key={service._id} value={service._id}>
+                  {service.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+        </Grid>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Create
+        </Button>
+      </Box>
+    </>
+  );
+}

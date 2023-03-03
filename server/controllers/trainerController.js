@@ -52,12 +52,6 @@ export const getTrainerById = asyncHandler(async (req, res) => {
 export const updateTrainer = asyncHandler(async (req, res) => {
   const { name, email, address, phoneNumber, experience } = req.body;
 
-  // const userExists = await User.findOne({ email });
-  // if (userExists) {
-  //   res.status(400);
-  //   throw new Error("Email is already in use");
-  // }
-
   const trainer = await Trainer.findById(req.params.id).populate(
     "user",
     "name email"
@@ -72,6 +66,13 @@ export const updateTrainer = asyncHandler(async (req, res) => {
     if (email) {
       user.email = email;
     }
+    // throw new Error("Email is already in use");
+    //   else{
+    //     // if (userExists) {
+    //     //   res.status(400);
+    //     // }
+
+    // }
     await user.save();
 
     // Update the Trainer model
