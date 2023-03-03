@@ -13,6 +13,7 @@ import memberRoutes from "./routes/memberRoutes.js";
 import trainerRoutes from "./routes/trainerRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import equipmentRoutes from "./routes/equipmentRoutes.js";
+import attendanceRoutes from "./routes/attendanceRoutes.js";
 
 // Data Import
 import User from "./models/UserModel.js";
@@ -44,6 +45,7 @@ app.use("/api/members", memberRoutes);
 app.use("/api/trainers", trainerRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/equipments", equipmentRoutes);
+app.use("/api/attendance", attendanceRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
