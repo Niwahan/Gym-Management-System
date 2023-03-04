@@ -112,17 +112,7 @@ export const createMembers =
   };
 
 export const updateMembers =
-  (
-    id,
-    name,
-    email,
-    gender,
-    address,
-    phoneNumber,
-    trainerId,
-    serviceId,
-    plan
-  ) =>
+  (id, name, email, gender, address, phoneNumber, trainerId, serviceId, plan) =>
   async (dispatch, getState) => {
     try {
       dispatch({
@@ -150,7 +140,7 @@ export const updateMembers =
           phoneNumber,
           trainerId,
           serviceId,
-          plan
+          plan,
         },
         config
       );

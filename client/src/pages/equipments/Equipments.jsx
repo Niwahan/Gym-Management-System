@@ -14,9 +14,9 @@ export default function Equipments() {
   const [pageSize, setPageSize] = useState(5);
 
   const listEquipments = useSelector((state) => state.equipments);
-  const { loading, error, equipmentsInfo} = listEquipments;
+  const { loading, error, equipmentsInfo } = listEquipments;
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(getEquipments());
   }, [dispatch]);
 
@@ -76,12 +76,16 @@ export default function Equipments() {
           title="Equipments"
           subtitle="See and manage your list of equipments."
           button={
-            <Button component={Link} to="/equipments/add-equipments" variant="contained">
+            <Button
+              component={Link}
+              to="/equipments/add-equipments"
+              variant="contained"
+            >
               Add Equipments
             </Button>
           }
         />
-      <Box
+        <Box
           mt="40px"
           height="75vh"
           sx={{

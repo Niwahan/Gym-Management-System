@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useTheme, ThemeProvider } from "@mui/material/styles";
 import { Alert, CircularProgress } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -33,9 +33,9 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
 
 export default function SignIn() {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,8 +44,6 @@ export default function SignIn() {
   const userLogin = useSelector((state) => state.userLogin);
 
   const { loading, error, userInfo } = userLogin;
-
-
 
   useEffect(() => {
     if (userInfo) {
@@ -79,11 +77,7 @@ export default function SignIn() {
           </Typography>
           {error && <Alert severity="error">{error}</Alert>}
           {loading && <CircularProgress />}
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -94,7 +88,7 @@ export default function SignIn() {
               value={email}
               autoComplete="email"
               autoFocus
-               onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -106,7 +100,7 @@ export default function SignIn() {
               id="password"
               value={password}
               autoComplete="current-password"
-          onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

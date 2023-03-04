@@ -20,14 +20,17 @@ export const updateMembersProgress =
       const config = {
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${userInfo.token}`,
+          Authorization: `Bearer ${userInfo.token}`,
         },
       };
 
       const { data } = await axios.put(
         `/api/membersProgress/${id}`,
         {
-            initialWeight, finalWeight, initialBodyType, finalBodyType
+          initialWeight,
+          finalWeight,
+          initialBodyType,
+          finalBodyType,
         },
         config
       );

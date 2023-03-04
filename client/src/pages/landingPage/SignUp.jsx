@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useTheme, ThemeProvider } from "@mui/material/styles";
 import { CircularProgress, Alert } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -31,9 +31,9 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
 
 export default function SignUp() {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -49,7 +49,7 @@ export default function SignUp() {
 
   const userRegistration = useSelector((state) => state.userRegistration);
 
-  const {userInfo, loading, error  } = userRegistration;
+  const { userInfo, loading, error } = userRegistration;
 
   useEffect(() => {
     if (userInfo) {
@@ -89,11 +89,7 @@ export default function SignUp() {
           {error && <Alert severity="error">{error}</Alert>}
           {message && <Alert severity="error">{message}</Alert>}
           {loading && <CircularProgress />}
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField

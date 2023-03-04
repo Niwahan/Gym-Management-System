@@ -61,7 +61,7 @@ const store = configureStore({
     memberUpdate: memberUpdateReducer,
     memberDelete: memberDeleteReducer,
     memberAttendanceCheckin: memberAttendanceCheckinReducer,
-    memberProgressUpdate: memberProgressUpdateReducer
+    memberProgressUpdate: memberProgressUpdateReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();

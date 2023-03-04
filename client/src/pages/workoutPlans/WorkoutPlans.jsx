@@ -1,79 +1,73 @@
 import React from "react";
 import {
   Box,
-  // Card,
-  // CardActions,
-  // CardContent,
-  // Collapse,
-  // Button,
-  // Typography,
-  // Rating,
-  // useTheme,
-  // useMediaQuery,
-  // List,
-  // ListItem,
-  // ListItemText,
+  Typography,
+  useTheme,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import Header from "components/Header";
-// import { useState } from "react";
-// import FullCalendar, { formatDate } from "@fullcalendar/react";
-// import dayGridPlugin from "@fullcalendar/daygrid";
-// import timeGridPlugin from "@fullcalendar/timegrid";
-// import interactionPlugin from "@fullcalendar/interaction";
-// import listPlugin from "@fullcalendar/list";
-// import { tokens } from "../../theme";
+import { useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import { formatDate } from "@fullcalendar/core";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from "@fullcalendar/list";
 
 export default function WorkOutPlans() {
-    // const theme = useTheme();
-    // // const colors = tokens(theme.palette.mode);
-    // const [currentEvents, setCurrentEvents] = useState([]);
-  
-    // const handleDateClick = (selected) => {
-    //   const title = prompt("Please enter a new title for your event");
-    //   const calendarApi = selected.view.calendar;
-    //   calendarApi.unselect();
-  
-    //   if (title) {
-    //     calendarApi.addEvent({
-    //       id: `${selected.dateStr}-${title}`,
-    //       title,
-    //       start: selected.startStr,
-    //       end: selected.endStr,
-    //       allDay: selected.allDay,
-    //     });
-    //   }
-    // };
-  
-    // const handleEventClick = (selected) => {
-    //   if (
-    //     window.confirm(
-    //       `Are you sure you want to delete the event '${selected.event.title}'`
-    //     )
-    //   ) {
-    //     selected.event.remove();
-    //   }
-    // };
-  
-  return (<>
-    <Box m="1.5rem 2.5rem">
-      <Header title="Workout Plans" subtitle=" " />
-    </Box>
-    
-{/* 
+  const theme = useTheme();
+  const [currentEvents, setCurrentEvents] = useState([]);
+
+  const handleDateClick = (selected) => {
+    const title = prompt("Please enter a new title for your event");
+    const calendarApi = selected.view.calendar;
+    calendarApi.unselect();
+
+    if (title) {
+      calendarApi.addEvent({
+        id: `${selected.dateStr}-${title}`,
+        title,
+        start: selected.startStr,
+        end: selected.endStr,
+        allDay: selected.allDay,
+      });
+    }
+  };
+
+  const handleEventClick = (selected) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete the workout '${selected.event.title}'`
+      )
+    ) {
+      selected.event.remove();
+    }
+  };
+
+  return (
+    <>
+      <Box m="1.5rem 2.5rem">
+        <Header title="Workout Plans" subtitle=" " />
+      </Box>
+
       <Box display="flex" justifyContent="space-between">
         <Box
           flex="1 1 20%"
           backgroundColor={theme.palette.primary[400]}
           p="15px"
           borderRadius="4px"
+          ml="25px"
+          mr="25px"
         >
-          <Typography variant="h5">Events</Typography>
+          <Typography variant="h5">Workouts</Typography>
           <List>
             {currentEvents.map((event) => (
               <ListItem
                 key={event.id}
                 sx={{
-                  backgroundColor: theme.palette.secondary[500],
+                  backgroundColor: theme.palette.secondary[600],
                   margin: "10px 0",
                   borderRadius: "2px",
                 }}
@@ -95,7 +89,6 @@ export default function WorkOutPlans() {
           </List>
         </Box>
 
-  
         <Box flex="1 1 100%" ml="15px">
           <FullCalendar
             height="75vh"
@@ -132,7 +125,7 @@ export default function WorkOutPlans() {
             ]}
           />
         </Box>
-      </Box> */}
+      </Box>
     </>
   );
-};
+}

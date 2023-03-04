@@ -34,7 +34,7 @@ export const createMember = asyncHandler(async (req, res) => {
     dateOfRegistration,
     trainerId,
     serviceId,
-    plan
+    plan,
   } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -113,7 +113,7 @@ export const updateMember = asyncHandler(async (req, res) => {
     phoneNumber,
     trainerId,
     serviceId,
-    plan
+    plan,
   } = req.body;
 
   // const userExists = await User.findOne({ email });

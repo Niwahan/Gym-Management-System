@@ -35,7 +35,7 @@ export default function SingleMemberProgress() {
 
   const updateHandler = (id) => {
     dispatch(
-        updateMembersProgress(
+      updateMembersProgress(
         id,
         initialWeight,
         finalWeight,
@@ -43,13 +43,12 @@ export default function SingleMemberProgress() {
         finalBodyType,
         () => {
           setInitialWeight(initialWeight);
-            setFinalWeight(finalWeight);
-            setInitialBodyType(initialBodyType);
-            setFinalBodyType(finalBodyType);
+          setFinalWeight(finalWeight);
+          setInitialBodyType(initialBodyType);
+          setFinalBodyType(finalBodyType);
         }
       )
     );
-    navigate("/members_progress");
   };
   console.log(id);
 
@@ -71,11 +70,11 @@ export default function SingleMemberProgress() {
     fetching();
   }, [id]);
 
-  //   useEffect(() => {
-  //     if (success) {
-  //     //   navigate("/members_progress");
-  //     }
-  //   }, [success, navigate]);
+    useEffect(() => {
+      if (success) {
+        navigate("/members_progress");
+      }
+    }, [success, navigate]);
 
   return (
     <>

@@ -49,8 +49,7 @@ export const getServices = () => async (dispatch, getState) => {
 };
 
 export const createServices =
-  (name, description, price) =>
-  async (dispatch, getState) => {
+  (name, description, price) => async (dispatch, getState) => {
     try {
       dispatch({
         type: SERVICE_CREATE_REQUEST,
@@ -90,8 +89,7 @@ export const createServices =
   };
 
 export const updateServices =
-  (id, name, description, price) =>
-  async (dispatch, getState) => {
+  (id, name, description, price) => async (dispatch, getState) => {
     try {
       dispatch({
         type: SERVICE_UPDATE_REQUEST,
