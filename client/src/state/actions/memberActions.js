@@ -58,7 +58,8 @@ export const createMembers =
     phoneNumber,
     dateOfRegistration,
     trainerId,
-    serviceId
+    serviceId,
+    plan
   ) =>
   async (dispatch, getState) => {
     try {
@@ -89,6 +90,7 @@ export const createMembers =
           dateOfRegistration,
           trainerId,
           serviceId,
+          plan,
         },
         config
       );
@@ -118,7 +120,8 @@ export const updateMembers =
     address,
     phoneNumber,
     trainerId,
-    serviceId
+    serviceId,
+    plan
   ) =>
   async (dispatch, getState) => {
     try {
@@ -147,6 +150,7 @@ export const updateMembers =
           phoneNumber,
           trainerId,
           serviceId,
+          plan
         },
         config
       );

@@ -18,6 +18,7 @@ const MemberSchema = new mongoose.Schema(
     phoneNumber: { type: String, required: true },
     dateOfRegistration: { type: Date, required: true },
     paidDate: { type: Date },
+    plan: {type: Number},
     status: { type: String },
     attendance: {
       type: [Date],
