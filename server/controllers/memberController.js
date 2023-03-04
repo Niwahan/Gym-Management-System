@@ -18,7 +18,7 @@ export const getMembers = asyncHandler(async (req, res) => {
     })
     .populate({
       path: "service",
-      select: "name",
+      select: "name price",
     });
   res.json(members);
 });
@@ -34,6 +34,7 @@ export const createMember = asyncHandler(async (req, res) => {
     dateOfRegistration,
     trainerId,
     serviceId,
+    plan
   } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -52,7 +53,8 @@ export const createMember = asyncHandler(async (req, res) => {
     !phoneNumber ||
     !dateOfRegistration ||
     !trainerId ||
-    !serviceId
+    !serviceId ||
+    !plan
   ) {
     res.status(400);
     throw new Error("Please fill all the fields");
@@ -68,6 +70,7 @@ export const createMember = asyncHandler(async (req, res) => {
       dateOfRegistration,
       trainer: trainerId,
       service: serviceId,
+      plan,
     });
     const createdMember = await member.save();
 
@@ -91,7 +94,7 @@ export const getMemberById = asyncHandler(async (req, res) => {
     })
     .populate({
       path: "service",
-      select: "name",
+      select: "name price",
     });
 
   if (member) {
@@ -110,6 +113,7 @@ export const updateMember = asyncHandler(async (req, res) => {
     phoneNumber,
     trainerId,
     serviceId,
+    plan
   } = req.body;
 
   // const userExists = await User.findOne({ email });
@@ -133,7 +137,7 @@ export const updateMember = asyncHandler(async (req, res) => {
     })
     .populate({
       path: "service",
-      select: "name",
+      select: "name price",
     });
 
   if (member) {
@@ -153,6 +157,7 @@ export const updateMember = asyncHandler(async (req, res) => {
     member.phoneNumber = phoneNumber || member.phoneNumber;
     member.trainer = trainerId || member.trainer;
     member.service = serviceId || member.service;
+    member.plan = plan || member.plan;
 
     const updatedMember = await member.save();
     res.json({ updatedMember });

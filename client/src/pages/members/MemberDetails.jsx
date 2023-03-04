@@ -9,6 +9,7 @@ import {
   MenuItem,
   CircularProgress,
   Alert,
+  InputLabel,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,6 +29,13 @@ export default function MemberDetails() {
   const [service, setService] = useState("");
   const [trainerName, setTrainerName] = useState("");
   const [serviceName, setServiceName] = useState("");
+  const [plan, setPlan] = useState("");
+  const planOptions = {
+    1: "One Month",
+    3: "Three Months",
+    6: "Six Months",
+    12: "One Year",
+  };
 
   const [editMode, setEditMode] = useState(false);
 
@@ -60,6 +68,7 @@ export default function MemberDetails() {
         setPhoneNumber(data.phoneNumber);
         setTrainer(data.trainer._id);
         setService(data.service._id);
+        setPlan(data.plan);
         setServiceName(data.service.name);
         setTrainerName(data.trainer.user.name);
       } catch (error) {
@@ -97,6 +106,7 @@ export default function MemberDetails() {
         phoneNumber,
         trainer,
         service,
+        plan,
         () => {
           setName(name);
           setEmail(email);
@@ -105,6 +115,7 @@ export default function MemberDetails() {
           setPhoneNumber(phoneNumber);
           setTrainer(trainer);
           setService(service);
+          setPlan(plan);
         }
       )
     );
@@ -115,7 +126,8 @@ export default function MemberDetails() {
       !phoneNumber ||
       !gender ||
       !trainer ||
-      !service
+      !service ||
+      !plan
     )
       return;
   };
@@ -139,6 +151,10 @@ export default function MemberDetails() {
 
   const handleServiceChange = (event) => {
     setService(event.target.value);
+  };
+
+  const handlePlanChange = (event) => {
+    setPlan(event.target.value);
   };
 
   return (
@@ -170,8 +186,9 @@ export default function MemberDetails() {
             <h3>Gender: {gender}</h3>
             <h3>Address: {address}</h3>
             <h3>Phone Number: {phoneNumber}</h3>
-            <h3>Service: {serviceName}</h3>
             <h3>Trainer: {trainerName}</h3>
+            <h3>Service: {serviceName}</h3>
+            <h3>Plan: {planOptions[plan]}</h3>
           </Box>
         )}
         {editMode && (
@@ -208,6 +225,7 @@ export default function MemberDetails() {
                 />
               </Grid>
               <Grid item xs={12}>
+                <InputLabel id="gender-label">Gender</InputLabel>
                 <Select
                   id="gender"
                   value={gender}
@@ -248,6 +266,7 @@ export default function MemberDetails() {
                 />
               </Grid>
               <Grid item xs={12}>
+                <InputLabel id="trainer-label">Trainer</InputLabel>
                 <Select
                   id="trainer"
                   value={trainer}
@@ -268,6 +287,7 @@ export default function MemberDetails() {
               </Grid>
 
               <Grid item xs={12}>
+                <InputLabel id="service-label">Service</InputLabel>
                 <Select
                   id="service"
                   value={service}
@@ -281,7 +301,27 @@ export default function MemberDetails() {
                   </MenuItem>
                   {servicesInfo.map((service) => (
                     <MenuItem key={service._id} value={service._id}>
-                      {service.name}
+                      {service.name} - ${service.price} per month
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel id="plan-label">Plan</InputLabel>
+                <Select
+                  id="plan"
+                  value={plan}
+                  onChange={handlePlanChange}
+                  fullWidth
+                  displayEmpty
+                  label="Plan"
+                >
+                  <MenuItem value="" disabled>
+                    Select plan
+                  </MenuItem>
+                  {Object.keys(planOptions).map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {planOptions[option]}
                     </MenuItem>
                   ))}
                 </Select>
