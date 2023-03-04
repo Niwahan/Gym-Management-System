@@ -48,16 +48,20 @@ export default function MembersProgress() {
       headerName: "Initial Body Type",
       flex: 0.5,
       valueGetter: (params) => {
-        return params.row.initialBodyType ? params.row.initialBodyType : "Not Registered Yet";
-      }
+        return params.row.initialBodyType
+          ? params.row.initialBodyType
+          : "Not Registered Yet";
+      },
     },
     {
       field: "finalBodyType",
       headerName: "Final Body Type",
       flex: 0.5,
       valueGetter: (params) => {
-        return params.row.finalBodyType ? params.row.finalBodyType : "Not Registered Yet";
-      }
+        return params.row.finalBodyType
+          ? params.row.finalBodyType
+          : "Not Registered Yet";
+      },
     },
     {
       field: "actions",

@@ -97,15 +97,14 @@ export default function TopBar(props) {
                   fontSize="0.85rem"
                   sx={{ color: theme.palette.secondary[100] }}
                 >
-                
                   {userInfo.name}
                 </Typography>
                 <Typography
                   fontSize="0.75rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
-                  
-                  {userInfo.role.charAt(0).toUpperCase()+ userInfo.role.slice(1).toLowerCase()}
+                  {userInfo.role.charAt(0).toUpperCase() +
+                    userInfo.role.slice(1).toLowerCase()}
                 </Typography>
               </Box>
               <ArrowDropDownOutlined

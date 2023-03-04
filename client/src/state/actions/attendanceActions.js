@@ -13,12 +13,11 @@ export const memberAttendanceCheckin = (_id) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
-      // body: JSON.stringify({ _id }),
     };
 
     const { data } = await axios.put(
       `/api/attendance/checkin`,
-      {_id},
+      { _id },
       config
     );
 

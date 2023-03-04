@@ -5,7 +5,7 @@ const EquipmentSchema = new mongoose.Schema({
   description: { type: String, required: true },
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
-  purchasedDate: {type: String, required: true}
+  purchasedDate: { type: String, required: true },
 });
 const Equipment = mongoose.model("Equipment", EquipmentSchema);
 export default Equipment;

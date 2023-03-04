@@ -25,11 +25,7 @@ export default function Header({ title, subtitle, button }) {
           {subtitle}
         </Typography>
       </Box>
-      {button && (
-        <span  color="primary">
-          {button}
-        </span>
-      )}
+      {button && <span color="primary">{button}</span>}
     </Box>
   );
 }

@@ -52,7 +52,10 @@ function App() {
               <Route path="/trainers/add-trainers" element={<AddTrainers />} />
               <Route path="/trainers/:id" element={<TrainerDetails />} />
               <Route path="/equipments" element={<Equipments />} />
-              <Route path="/equipments/add-equipments" element={<AddEquipments />} />
+              <Route
+                path="/equipments/add-equipments"
+                element={<AddEquipments />}
+              />
               <Route path="/equipments/:id" element={<EquipmentDetails />} />
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/payments" element={<Payment />} />
@@ -60,7 +63,10 @@ function App() {
               <Route path="/services/add-services" element={<AddServices />} />
               <Route path="/services/:id" element={<ServiceDetails />} />
               <Route path="/members_progress" element={<MembersProgress />} />
-              <Route path="/members_progress/:id" element={<SingleMemberProgress/>}/>
+              <Route
+                path="/members_progress/:id"
+                element={<SingleMemberProgress />}
+              />
               <Route path="/workout_plans" element={<WorkOutPlans />} />
               <Route path="/diet_plans" element={<DietPlans />} />
             </Route>

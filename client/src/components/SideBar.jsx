@@ -95,6 +95,13 @@ export default function SideBar({
     setActive(pathname.substring(1));
   }, [pathname]);
 
+  const filteredNavItems = navItems.filter(({ allowedRoles }) => {
+    if (!allowedRoles) {
+      return true;
+    }
+    return userInfo && allowedRoles.includes(userInfo.role);
+  });
+
   return (
     <Box component="nav">
       {isSideBarOpen && (
@@ -130,17 +137,24 @@ export default function SideBar({
               </FlexBetween>
             </Box>
             <List>
-              {navItems.map(({ text, icon }) => {
-                if (!icon) {
-                  return (
-                    <Typography key={text} sx={{ m: "1.5rem 0 0.5rem 3rem" }}>
-                      {text}
-                    </Typography>
-                  );
-                }
+              {filteredNavItems.map(({ text, icon }) => {
                 const lcText = text.toLowerCase().replace(" ", "_");
-
-                return (
+                let shouldDisplayNavItem = true;
+                if (userInfo.role === "member") {
+                  shouldDisplayNavItem = [
+                    "dashboard",
+                    "workout_plans",
+                    "diet_plans",
+                  ].includes(lcText);
+                } else if (userInfo.role === "trainer") {
+                  shouldDisplayNavItem = [
+                    "dashboard",
+                    "members_progress",
+                    "workout_plans",
+                    "diet_plans",
+                  ].includes(lcText);
+                }
+                return shouldDisplayNavItem ? (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
@@ -175,7 +189,7 @@ export default function SideBar({
                       )}
                     </ListItemButton>
                   </ListItem>
-                );
+                ) : null;
               })}
             </List>
           </Box>
