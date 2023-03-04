@@ -27,6 +27,7 @@ import ServiceDetails from "pages/services/ServiceDetails";
 import AddEquipments from "pages/equipments/AddEquipments";
 import EquipmentDetails from "pages/equipments/EquipmentDetails";
 import MemberDetails from "pages/members/MemberDetails";
+import SingleMemberProgress from "pages/membersProgress/SingleMemberProgress";
 
 function App() {
   // For Theme
@@ -59,6 +60,7 @@ function App() {
               <Route path="/services/add-services" element={<AddServices />} />
               <Route path="/services/:id" element={<ServiceDetails />} />
               <Route path="/members_progress" element={<MembersProgress />} />
+              <Route path="/members_progress/:id" element={<SingleMemberProgress/>}/>
               <Route path="/workout_plans" element={<WorkOutPlans />} />
               <Route path="/diet_plans" element={<DietPlans />} />
             </Route>

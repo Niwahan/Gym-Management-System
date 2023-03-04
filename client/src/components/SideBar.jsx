@@ -28,6 +28,7 @@ import {
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
+import { useSelector } from "react-redux";
 
 export default function SideBar({
   drawerWidth,
@@ -86,6 +87,9 @@ export default function SideBar({
   const [active, setActive] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
     setActive(pathname.substring(1));
