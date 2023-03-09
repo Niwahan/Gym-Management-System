@@ -28,6 +28,12 @@ import {
 } from "./reducers/memberReducers";
 import { memberAttendanceCheckinReducer } from "./reducers/attendanceReducers";
 import { memberProgressUpdateReducer } from "./reducers/memberProgressReducers";
+import {
+  workoutplanCreateReducer,
+  workoutplanDeleteReducer,
+  workoutplanReducer,
+  workoutplanUpdateReducer,
+} from "./reducers/workoutPlanReducers";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -62,6 +68,10 @@ const store = configureStore({
     memberDelete: memberDeleteReducer,
     memberAttendanceCheckin: memberAttendanceCheckinReducer,
     memberProgressUpdate: memberProgressUpdateReducer,
+    workoutPlan: workoutplanReducer,
+    workoutPlanCreate: workoutplanCreateReducer,
+    workoutPlanUpdate: workoutplanUpdateReducer,
+    workoutPlanDelete: workoutplanDeleteReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();

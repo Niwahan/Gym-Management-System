@@ -71,6 +71,7 @@ export const createMember = asyncHandler(async (req, res) => {
       trainer: trainerId,
       service: serviceId,
       plan,
+      workoutPlan: [],
     });
     const createdMember = await member.save();
 
