@@ -29,7 +29,7 @@ import AddEquipments from "pages/equipments/AddEquipments";
 import EquipmentDetails from "pages/equipments/EquipmentDetails";
 import MemberDetails from "pages/members/MemberDetails";
 import SingleMemberProgress from "pages/membersProgress/SingleMemberProgress";
-import WorkOutPlan from "pages/workoutPlans/WorkoutPlan";
+import WorkOutPlan from "pages/workoutPlans/WorkoutPlans";
 
 Modal.setAppElement("#root");
 
