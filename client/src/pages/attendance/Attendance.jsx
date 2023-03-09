@@ -12,6 +12,7 @@ export default function Attendance() {
   const dispatch = useDispatch();
   const [pageSize, setPageSize] = useState(10);
   const [clickedMembers, setClickedMembers] = useState({});
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;
@@ -20,19 +21,22 @@ export default function Attendance() {
   const {
     loading: loadingAttendance,
     error: errorAttendance,
-    // success: successAttendance,
+    success: successAttendance,
   } = checkIn;
 
   useEffect(() => {
     dispatch(getMembers());
+    setIsFirstLoad(false);
   }, [dispatch]);
 
+  // Only dispatch the getMembers action if the page is not loaded for the first time
+useEffect(() => {
+  if (!isFirstLoad && successAttendance) {
+    dispatch(getMembers());
+  }
+}, [dispatch, isFirstLoad, successAttendance]);
+
   const columns = [
-    // {
-    //   field: "_id",
-    //   headerName: "ID",
-    //   flex: 0.5,
-    // },
     {
       field: "name",
       headerName: "Full Name",
