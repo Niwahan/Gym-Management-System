@@ -29,7 +29,7 @@ import AddEquipments from "pages/equipments/AddEquipments";
 import EquipmentDetails from "pages/equipments/EquipmentDetails";
 import MemberDetails from "pages/members/MemberDetails";
 import SingleMemberProgress from "pages/membersProgress/SingleMemberProgress";
-import WorkOutPlan from "pages/workoutPlans/WorkoutPlans";
+import WorkoutPlan from "pages/workoutPlans/SingleWorkoutPlan";
 
 Modal.setAppElement("#root");
 
@@ -72,7 +72,7 @@ function App() {
                 element={<SingleMemberProgress />}
               />
               <Route path="/workout_plans" element={<WorkOutPlans />} />
-              <Route path="/workout_plans/:id" element={<WorkOutPlan />} />
+              <Route path="/workout_plans/:id" element={<WorkoutPlan />} />
               <Route path="/diet_plans" element={<DietPlans />} />
             </Route>
           </Routes>

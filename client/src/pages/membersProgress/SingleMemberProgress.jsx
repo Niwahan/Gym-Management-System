@@ -70,11 +70,11 @@ export default function SingleMemberProgress() {
     fetching();
   }, [id]);
 
-    useEffect(() => {
-      if (success) {
-        navigate("/members_progress");
-      }
-    }, [success, navigate]);
+  useEffect(() => {
+    if (success) {
+      navigate("/members_progress");
+    }
+  }, [success, navigate]);
 
   return (
     <>

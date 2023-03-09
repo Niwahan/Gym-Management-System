@@ -22,7 +22,7 @@ import {
   getWorkoutPlans,
 } from "state/actions/workoutPlanActions";
 
-export default function WorkOutPlan() {
+export default function SingleWorkoutPlan() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const theme = useTheme();
