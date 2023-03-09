@@ -60,15 +60,22 @@ export const updateService = asyncHandler(async (req, res) => {
   }
 });
 
+export const deleteEquipment = asyncHandler(async (req, res) => {
+  const equipment = await Equipment.findById(req.params.id);
+
+  if (equipment) {
+    await equipment.remove();
+    res.json({ message: "Equipment removed" });
+  } else {
+    res.status(404).json({ message: "Equipment not found" });
+  }
+});
+
 export const deleteService = asyncHandler(async (req, res) => {
   const service = await Service.findById(req.params.id);
 
   if (service) {
-    const service = await Service.findById();
-    if (service) {
-      await service.remove();
-    }
-    // await trainer.remove();
+    await service.remove();
     res.json({ message: "Service removed" });
   } else {
     res.status(404).json({ message: "Service not found" });
