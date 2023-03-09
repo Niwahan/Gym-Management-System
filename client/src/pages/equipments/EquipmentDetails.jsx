@@ -93,8 +93,6 @@ export default function EquipmentDetails() {
     }
   }, [success, dispatch]);
 
-  useEffect(() => {});
-
   return (
     <div>
       <Box m="1.5rem 2.5rem">

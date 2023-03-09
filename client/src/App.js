@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { themeSettings } from "theme";
+import Modal from "react-modal";
 
 // Importing Pages
 import Dashboard from "pages/dashboard/Dashboard";
@@ -28,6 +29,9 @@ import AddEquipments from "pages/equipments/AddEquipments";
 import EquipmentDetails from "pages/equipments/EquipmentDetails";
 import MemberDetails from "pages/members/MemberDetails";
 import SingleMemberProgress from "pages/membersProgress/SingleMemberProgress";
+import WorkOutPlan from "pages/workoutPlans/WorkoutPlan";
+
+Modal.setAppElement("#root");
 
 function App() {
   // For Theme
@@ -68,6 +72,7 @@ function App() {
                 element={<SingleMemberProgress />}
               />
               <Route path="/workout_plans" element={<WorkOutPlans />} />
+              <Route path="/workout_plans/:id" element={<WorkOutPlan />} />
               <Route path="/diet_plans" element={<DietPlans />} />
             </Route>
           </Routes>

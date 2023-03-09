@@ -1,5 +1,33 @@
 import mongoose from "mongoose";
 
+const WorkoutSchema = mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  exercises: [
+    {
+      _id: false, // disable automatic _id generation
+      name: {
+        type: String,
+        required: true,
+      },
+      sets: {
+        type: Number,
+        required: true,
+      },
+      reps: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+});
+
 const MemberSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
@@ -29,6 +57,7 @@ const MemberSchema = new mongoose.Schema(
     initialBodyType: { type: String },
     finalBodyType: { type: String },
     progressDate: { type: Date },
+    workoutPlan: [WorkoutSchema],
   },
   {
     timestamps: true,

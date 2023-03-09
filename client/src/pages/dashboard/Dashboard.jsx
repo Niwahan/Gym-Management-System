@@ -1,6 +1,13 @@
 import React from "react";
-// import { Navigate } from "react-router-dom";
+import Header from "components/Header";
+import { Box } from "@mui/material";
 
 export default function Dashboard() {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <Box m="1.5rem 2.5rem">
+        <Header title="Dashboard" subtitle=" " />
+      </Box>
+    </>
+  );
 }
