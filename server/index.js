@@ -16,6 +16,7 @@ import equipmentRoutes from "./routes/equipmentRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 import memberProgressRoutes from "./routes/memberProgressRoutes.js";
 import workoutPlanRoutes from "./routes/workoutPlanRoutes.js";
+import dietPlanRoutes from "./routes/dietPlanRoutes.js";
 
 // Data Import
 import User from "./models/UserModel.js";
@@ -48,6 +49,7 @@ app.use("/api/equipments", equipmentRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/membersProgress", memberProgressRoutes);
 app.use("/api/workoutPlan", workoutPlanRoutes);
+app.use("/api/dietPlan", dietPlanRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

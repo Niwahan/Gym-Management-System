@@ -34,6 +34,12 @@ import {
   workoutplanReducer,
   workoutplanUpdateReducer,
 } from "./reducers/workoutPlanReducers";
+import {
+  dietplanCreateReducer,
+  dietplanDeleteReducer,
+  dietplanReducer,
+  dietplanUpdateReducer,
+} from "./reducers/dietPlanReducers";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -72,6 +78,10 @@ const store = configureStore({
     workoutPlanCreate: workoutplanCreateReducer,
     workoutPlanUpdate: workoutplanUpdateReducer,
     workoutPlanDelete: workoutplanDeleteReducer,
+    dietPlan: dietplanReducer,
+    dietPlanCreate: dietplanCreateReducer,
+    dietPlanUpdate: dietplanUpdateReducer,
+    dietPlanDelete: dietplanDeleteReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();

@@ -51,7 +51,7 @@ export default function WorkoutPlans() {
             navigate(`/workout_plans/${params.row._id}`);
           }}
         >
-          See Workout Plans
+          See Workout Plan
         </Button>
       ),
     },

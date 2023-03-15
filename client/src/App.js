@@ -29,7 +29,8 @@ import AddEquipments from "pages/equipments/AddEquipments";
 import EquipmentDetails from "pages/equipments/EquipmentDetails";
 import MemberDetails from "pages/members/MemberDetails";
 import SingleMemberProgress from "pages/membersProgress/SingleMemberProgress";
-import WorkoutPlan from "pages/workoutPlans/SingleWorkoutPlan";
+import SingleWorkoutPlan from "pages/workoutPlans/SingleWorkoutPlan";
+import SingleDietPlan from "pages/dietPlans/SingleDietPlan";
 
 Modal.setAppElement("#root");
 
@@ -72,8 +73,9 @@ function App() {
                 element={<SingleMemberProgress />}
               />
               <Route path="/workout_plans" element={<WorkOutPlans />} />
-              <Route path="/workout_plans/:id" element={<WorkoutPlan />} />
+              <Route path="/workout_plans/:id" element={<SingleWorkoutPlan />} />
               <Route path="/diet_plans" element={<DietPlans />} />
+              <Route path="/diet_plans/:id" element={<SingleDietPlan />} />
             </Route>
           </Routes>
         </ThemeProvider>

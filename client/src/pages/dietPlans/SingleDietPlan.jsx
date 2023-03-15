@@ -14,35 +14,29 @@ import { formatDate } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import WorkoutModalDialog from "components/WorkoutModalDialog";
-import { useDispatch, useSelector } from "react-redux";
+import DietModalDialog from "components/DietModalDialog";
 import { useParams } from "react-router-dom";
-import {
-  deleteWorkoutPlans,
-  getWorkoutPlans,
-} from "state/actions/workoutPlanActions";
+import { useDispatch, useSelector } from "react-redux";
+import { getDietPlans, deleteDietPlans } from "state/actions/dietPlanActions";
 
-export default function SingleWorkoutPlan() {
+export default function SingleDietPlan() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const theme = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
 
-  const listWorkoutPlans = useSelector((state) => state.workoutPlan);
-  const { workoutplansInfo } = listWorkoutPlans;
+  const listDietPlans = useSelector((state) => state.dietPlan);
+  const { dietplansInfo } = listDietPlans;
 
-  const workoutPlanDelete = useSelector((state) => state.workoutPlanDelete);
-  const {
-    // loading: loadingDelete,
-    // error: errorDelete,
-    success: successDelete,
-  } = workoutPlanDelete;
+  const dietPlanDelete = useSelector((state) => state.dietPlanDelete);
+  const { success: successDelete } = dietPlanDelete;
+
+  const ulStyle = { margin: 0, padding: 0, listStyle: "none" };
 
   useEffect(() => {
-    dispatch(getWorkoutPlans(id));
+    dispatch(getDietPlans(id));
   }, [dispatch, id]);
 
-  
   useEffect(() => {
     if (successDelete) {
       window.location.reload();
@@ -50,27 +44,27 @@ export default function SingleWorkoutPlan() {
   }, [successDelete, dispatch]);
 
   const events =
-    workoutplansInfo.length > 0
-      ? workoutplansInfo.map((workoutplans) => ({
-          id: workoutplans._id,
-          title: workoutplans.title,
-          start: workoutplans.date,
-          end: workoutplans.date,
+    dietplansInfo.length > 0
+      ? dietplansInfo.map((dietplans) => ({
+          id: dietplans._id,
+          title: dietplans.title,
+          start: dietplans.date,
+          end: dietplans.date,
           allDay: true,
           extendedProps: {
-            exercises: workoutplans.exercises,
+            meals: dietplans.meals,
           },
         }))
       : [];
 
   const handleEventClick = (selected) => {
-    const workoutPlanId = selected.event.id; // get the id of the selected event
+    const dietPlanId = selected.event.id;
     if (
       window.confirm(
-        `Are you sure you want to delete the workout '${selected.event.title}'`
+        `Are you sure you want to delete the diet '${selected.event.title}'`
       )
     ) {
-      dispatch(deleteWorkoutPlans(id, workoutPlanId));
+      dispatch(deleteDietPlans(id, dietPlanId));
       selected.event.remove();
     }
   };
@@ -80,12 +74,21 @@ export default function SingleWorkoutPlan() {
       <div>
         <div>Title: {event.title}</div>
         <div>
-          Exercises:
-          <ul>
-            {event.extendedProps.exercises.map((exercise, index) => (
+          Diets:
+          <ul style={ulStyle}>
+            {event.extendedProps.meals.map((meal, index) => (
               <li key={index}>
-                {exercise.name} <br /> Sets: {exercise.sets} <br /> Reps:{" "}
-                {exercise.reps}
+                {meal.name} <br />
+                <ul>
+                  {meal.mealItems.map((mealItem, index) => (
+                    <li key={index}>
+                      Name: {mealItem.name} <br />
+                      Calories: {mealItem.calories}
+                    </li>
+                  ))}
+                </ul>
+                Total Calories: {meal.totalCalories}
+                <br />
               </li>
             ))}
           </ul>
@@ -108,11 +111,11 @@ export default function SingleWorkoutPlan() {
     <>
       <Box m="1.5rem 2.5rem">
         <Header
-          title="Workout Plans"
+          title="Diet Plans"
           subtitle=" "
           button={
             <Button variant="contained" onClick={() => setModalOpen(true)}>
-              Add Workout
+              Add Diet
             </Button>
           }
         />
@@ -126,7 +129,7 @@ export default function SingleWorkoutPlan() {
             ml="25px"
             mr="25px"
           >
-            <Typography variant="h5">Workouts for Today</Typography>
+            <Typography variant="h5">Diets</Typography>
             <List>
               {filteredEvents.map((event) => (
                 <ListItem
@@ -149,19 +152,22 @@ export default function SingleWorkoutPlan() {
                             day: "numeric",
                           })}
                         </Typography>
-                        Exercises:
-                        <ul>
-                          {event.extendedProps.exercises.map(
-                            (exercise, index) => (
-                              <li key={index}>
-                                {exercise.name}
-                                <br />
-                                Sets: {exercise.sets}
-                                <br />
-                                Reps: {exercise.reps}
-                              </li>
-                            )
-                          )}
+                        Diets:
+                        <ul style={ulStyle}>
+                          {event.extendedProps.meals.map((meal, index) => (
+                            <li key={index}>
+                              {meal.name} <br />
+                              <ul>
+                                {meal.mealItems.map((mealItem, index) => (
+                                  <li key={index}>
+                                    Name: {mealItem.name} <br />
+                                    Calories: {mealItem.calories}
+                                  </li>
+                                ))}
+                              </ul>
+                              Total Calories: {meal.totalCalories}
+                            </li>
+                          ))}
                         </ul>
                       </>
                     }
@@ -171,7 +177,6 @@ export default function SingleWorkoutPlan() {
               ))}
             </List>
           </Box>
-
           <Box
             flex="1 1 100%"
             ml="15px"
@@ -186,11 +191,23 @@ export default function SingleWorkoutPlan() {
                 right: "dayGridWeek dayGridDay listWeek",
               }}
               initialView="dayGridWeek"
+              eventClick={handleEventClick}
               events={events}
               eventContent={eventRender}
-              eventClick={handleEventClick}
+              initialEvents={[
+                {
+                  id: "12315",
+                  title: "Scrambled Eggs",
+                  date: "2023-03-05",
+                },
+                {
+                  id: "5123",
+                  title: "Toast",
+                  date: "2023-03-06",
+                },
+              ]}
             />
-            <WorkoutModalDialog
+            <DietModalDialog
               isOpen={modalOpen}
               onClose={() => setModalOpen(false)}
             />
