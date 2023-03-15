@@ -12,10 +12,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useDispatch, useSelector } from "react-redux";
-import { createWorkoutPlans } from "state/actions/workoutPlanActions";
+import { createWorkoutPlans, getWorkoutPlans } from "state/actions/workoutPlanActions";
 import { useParams } from "react-router-dom";
 
-export default function ModalDialog({ isOpen, onClose }) {
+export default function WorkoutModalDialog({ isOpen, onClose }) {
   const { id } = useParams();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -47,15 +47,16 @@ export default function ModalDialog({ isOpen, onClose }) {
   useEffect(() => {
     if (success) {
       dispatch({ type: "WORKOUTPLAN_CREATE_RESET" });
+      dispatch(getWorkoutPlans(id));
       resetHandler();
+      
       onClose();
     }
-  }, [success, dispatch, onClose]);
+  }, [success, dispatch, id, onClose]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     dispatch(createWorkoutPlans(id, title, date, exercises));
-    console.log(id, title, date, exercises);
   };
 
   const handleRemoveExercise = (index) => {

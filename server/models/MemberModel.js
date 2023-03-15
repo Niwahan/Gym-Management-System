@@ -28,6 +28,29 @@ const WorkoutSchema = mongoose.Schema({
   ],
 });
 
+const dietPlanSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  meals: [
+    {
+      name: { type: String, required: true },
+      mealItems: [
+        {
+          name: { type: String, required: true },
+          calories: { type: Number, required: true },
+        },
+      ],
+      totalCalories: { type: Number, default: 0 },
+    },
+  ],
+});
+
 const MemberSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
@@ -58,6 +81,7 @@ const MemberSchema = new mongoose.Schema(
     finalBodyType: { type: String },
     progressDate: { type: Date },
     workoutPlan: [WorkoutSchema],
+    dietPlan: [dietPlanSchema],
   },
   {
     timestamps: true,

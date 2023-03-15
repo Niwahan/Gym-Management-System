@@ -53,7 +53,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/dashboard");
+      navigate("/");
     }
   }, [navigate, userInfo]);
 
