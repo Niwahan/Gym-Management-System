@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+const PaymentSchema = mongoose.Schema({
+  amount: {
+    type: Number,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+});
+
 const WorkoutSchema = mongoose.Schema({
   title: {
     type: String,
@@ -82,6 +93,7 @@ const MemberSchema = new mongoose.Schema(
     progressDate: { type: Date },
     workoutPlan: [WorkoutSchema],
     dietPlan: [dietPlanSchema],
+    payment: [PaymentSchema],
   },
   {
     timestamps: true,

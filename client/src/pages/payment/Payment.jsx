@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { makePayment } from "state/actions/paymentActions";
 
 export default function Payment() {
   const theme = useTheme();
@@ -56,7 +57,13 @@ export default function Payment() {
       headerName: "Last Paid Date",
       flex: 0.5,
       valueGetter: (params) => {
-        return params.row.paidDate ? params.row.paidDate : "Not Paid";
+        const payments = params.row.payment || [];
+        const latestPayment = payments.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        )[0];
+        return latestPayment
+          ? new Date(latestPayment.date).toLocaleDateString()
+          : "Not Paid";
       },
     },
     {
@@ -68,6 +75,7 @@ export default function Payment() {
           variant="contained"
           color="primary"
           onClick={() => {
+            dispatch(makePayment(params.row._id));
             navigate(`/payments/${params.row._id}`);
           }}
         >

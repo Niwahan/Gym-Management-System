@@ -40,6 +40,7 @@ import {
   dietplanReducer,
   dietplanUpdateReducer,
 } from "./reducers/dietPlanReducers";
+import { makePaymentReducer } from "./reducers/paymentReducers";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -82,6 +83,7 @@ const store = configureStore({
     dietPlanCreate: dietplanCreateReducer,
     dietPlanUpdate: dietplanUpdateReducer,
     dietPlanDelete: dietplanDeleteReducer,
+    makePayment: makePaymentReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();

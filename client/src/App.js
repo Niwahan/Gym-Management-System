@@ -31,6 +31,7 @@ import MemberDetails from "pages/members/MemberDetails";
 import SingleMemberProgress from "pages/membersProgress/SingleMemberProgress";
 import SingleWorkoutPlan from "pages/workoutPlans/SingleWorkoutPlan";
 import SingleDietPlan from "pages/dietPlans/SingleDietPlan";
+import PaymentInvoice from "pages/payment/PaymentInvoice";
 
 Modal.setAppElement("#root");
 
@@ -64,6 +65,7 @@ function App() {
               <Route path="/equipments/:id" element={<EquipmentDetails />} />
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/payments" element={<Payment />} />
+              <Route path="/payments/:id" element={<PaymentInvoice />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/add-services" element={<AddServices />} />
               <Route path="/services/:id" element={<ServiceDetails />} />
@@ -73,7 +75,10 @@ function App() {
                 element={<SingleMemberProgress />}
               />
               <Route path="/workout_plans" element={<WorkOutPlans />} />
-              <Route path="/workout_plans/:id" element={<SingleWorkoutPlan />} />
+              <Route
+                path="/workout_plans/:id"
+                element={<SingleWorkoutPlan />}
+              />
               <Route path="/diet_plans" element={<DietPlans />} />
               <Route path="/diet_plans/:id" element={<SingleDietPlan />} />
             </Route>

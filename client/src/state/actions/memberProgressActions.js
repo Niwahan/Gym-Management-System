@@ -34,7 +34,6 @@ export const updateMembersProgress =
         },
         config
       );
-      console.log(data);
 
       dispatch({
         type: MEMBER_PROGRESS_UPDATE_SUCCESS,
