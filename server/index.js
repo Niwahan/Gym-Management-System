@@ -18,18 +18,15 @@ import memberProgressRoutes from "./routes/memberProgressRoutes.js";
 import workoutPlanRoutes from "./routes/workoutPlanRoutes.js";
 import dietPlanRoutes from "./routes/dietPlanRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import announcementRoutes from "./routes/announcementRoutes.js";
 
-// Data Import
+// Model Import
 import User from "./models/UserModel.js";
 import Trainer from "./models/TrainerModel.js";
-import Announcements from "./models/Announcements.js";
-import Attendance from "./models/Attendance.js";
-import DietPlan from "./models/DietPlan.js";
+import Announcement from "./models/AnnouncementModel.js";
 import Equipment from "./models/EquipmentModel.js";
 import Member from "./models/MemberModel.js";
 import Service from "./models/ServiceModel.js";
-
-import { dataUser } from "./data/index.js";
 
 // CONFIGURATION
 dontenv.config();
@@ -52,6 +49,7 @@ app.use("/api/membersProgress", memberProgressRoutes);
 app.use("/api/workoutPlan", workoutPlanRoutes);
 app.use("/api/dietPlan", dietPlanRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/announcements", announcementRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -67,7 +65,5 @@ mongoose
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
     console.log(`MongoDB Connected`);
-    // Only add data one time
-    // User.insertMany(dataUser);
   })
   .catch((error) => console.log(`${error} Did not connect`));
