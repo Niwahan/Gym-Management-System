@@ -25,6 +25,9 @@ export default function SingleDietPlan() {
   const theme = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const listDietPlans = useSelector((state) => state.dietPlan);
   const { dietplansInfo } = listDietPlans;
 
@@ -42,6 +45,19 @@ export default function SingleDietPlan() {
       window.location.reload();
     }
   }, [successDelete, dispatch]);
+
+  const [calendarPlugins, setCalendarPlugins] = useState([
+    dayGridPlugin,
+    listPlugin,
+  ]);
+
+  useEffect(() => {
+    if (userInfo.role === "member") {
+      setCalendarPlugins([dayGridPlugin, listPlugin]); // read-only mode for members
+    } else {
+      setCalendarPlugins([dayGridPlugin, interactionPlugin, listPlugin]); // interactive mode for other roles
+    }
+  }, [userInfo.role]);
 
   const events =
     dietplansInfo.length > 0
@@ -114,9 +130,11 @@ export default function SingleDietPlan() {
           title="Diet Plans"
           subtitle=" "
           button={
-            <Button variant="contained" onClick={() => setModalOpen(true)}>
-              Add Diet
-            </Button>
+            userInfo.role === "member" ? null : (
+              <Button variant="contained" onClick={() => setModalOpen(true)}>
+                Add Workout
+              </Button>
+            )
           }
         />
 
@@ -184,7 +202,7 @@ export default function SingleDietPlan() {
           >
             <FullCalendar
               height="75vh"
-              plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
+              plugins={calendarPlugins}
               headerToolbar={{
                 left: "prev,next today",
                 center: "title",

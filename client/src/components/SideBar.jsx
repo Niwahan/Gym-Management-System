@@ -42,10 +42,6 @@ export default function SideBar({
       text: "Dashboard",
       icon: <HomeOutlined />,
     },
-    // {
-    //   text: " ",
-    //   icon: null,
-    // },
     {
       text: "Members",
       icon: <Person />,
@@ -150,6 +146,7 @@ export default function SideBar({
                     "dashboard",
                     "workout_plans",
                     "diet_plans",
+                    "announcements"
                   ].includes(lcText);
                 } else if (userInfo.role === "trainer") {
                   shouldDisplayNavItem = [
@@ -157,6 +154,7 @@ export default function SideBar({
                     "members_progress",
                     "workout_plans",
                     "diet_plans",
+                    "announcements"
                   ].includes(lcText);
                 }
                 return shouldDisplayNavItem ? (

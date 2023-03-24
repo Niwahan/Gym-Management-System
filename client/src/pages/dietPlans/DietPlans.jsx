@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function DietPlans() {
@@ -20,6 +20,17 @@ export default function DietPlans() {
     dispatch(getMembers());
   }, [dispatch]);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const filteredMembers = membersInfo?.filter(
+    (member) => member.trainer._id === userInfo.trainerId
+  );
+
+  if (userInfo.role === "member") {
+    const memberId = userInfo.memberId;
+    return <Navigate to={`/diet_plans/${memberId}`} />;
+  }
   const columns = [
     {
       field: "name",
@@ -96,7 +107,11 @@ export default function DietPlans() {
             loading={loading || !membersInfo}
             error={error}
             getRowId={(row) => row._id}
-            rows={membersInfo || []}
+            rows={
+              userInfo.role === "trainer"
+                ? filteredMembers || []
+                : membersInfo || []
+            }
             columns={columns}
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 15, 20]}

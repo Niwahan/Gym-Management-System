@@ -1,6 +1,8 @@
 import User from "../models/UserModel.js";
 import asyncHandler from "express-async-handler";
 import { generateToken } from "../utils/generateToken.js";
+import Member from "../models/MemberModel.js";
+import Trainer from "../models/TrainerModel.js";
 
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
@@ -40,8 +42,24 @@ export const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
+    let memberId;
+    if (user.role === "member") {
+      const member = await Member.findOne({ user: user._id });
+      if (member) {
+        memberId = member._id;
+      }
+    }
+    let trainerId;
+    if (user.role === "trainer") {
+      const trainer = await Trainer.findOne({ user: user._id });
+      if (trainer) {
+        trainerId = trainer._id;
+      }
+    }
     res.json({
       _id: user._id,
+      memberId,
+      trainerId,
       name: user.name,
       email: user.email,
       role: user.role,

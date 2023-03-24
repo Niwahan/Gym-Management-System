@@ -26,6 +26,9 @@ export default function Announcements() {
     dispatch(getAnnouncements());
   }, [dispatch]);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const announcementDelete = useSelector((state) => state.announcementDelete);
   const { success } = announcementDelete;
 
@@ -46,13 +49,15 @@ export default function Announcements() {
           title="Manage Announcements"
           subtitle=""
           button={
-            <Button
-              component={Link}
-              to="/announcements/create-announcements"
-              variant="contained"
-            >
-              Create Announcements
-            </Button>
+            userInfo.role !== "admin" ? null : (
+              <Button
+                component={Link}
+                to="/announcements/create-announcements"
+                variant="contained"
+              >
+                Create Announcements
+              </Button>
+            )
           }
         />
       </Box>
@@ -68,17 +73,20 @@ export default function Announcements() {
           <TableBody>
             {announcementsInfo?.map((announcement) => (
               <TableRow key={announcement._id}>
+                <TableCell>{new Date(announcement.date).toLocaleDateString()}</TableCell>
                 <TableCell>{announcement.title}</TableCell>
                 <TableCell>{announcement.message}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => handleDelete(announcement._id)}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
+                {userInfo.role === "admin" && (
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => handleDelete(announcement._id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

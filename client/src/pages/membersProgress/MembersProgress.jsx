@@ -13,8 +13,13 @@ export default function MembersProgress() {
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;
+
+  const filteredMembers = membersInfo?.filter(member => member.trainer._id === userInfo.trainerId);
 
   useEffect(() => {
     dispatch(getMembers());
@@ -120,7 +125,7 @@ export default function MembersProgress() {
             loading={loading || !membersInfo}
             error={error}
             getRowId={(row) => row._id}
-            rows={membersInfo || []}
+            rows={userInfo.role === 'trainer' ? filteredMembers || [] : membersInfo || []}
             columns={columns}
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 15, 20]}

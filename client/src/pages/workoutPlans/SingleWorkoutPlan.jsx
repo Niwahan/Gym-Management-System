@@ -28,26 +28,37 @@ export default function SingleWorkoutPlan() {
   const theme = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const listWorkoutPlans = useSelector((state) => state.workoutPlan);
   const { workoutplansInfo } = listWorkoutPlans;
 
   const workoutPlanDelete = useSelector((state) => state.workoutPlanDelete);
-  const {
-    // loading: loadingDelete,
-    // error: errorDelete,
-    success: successDelete,
-  } = workoutPlanDelete;
+  const { success: successDelete } = workoutPlanDelete;
 
   useEffect(() => {
     dispatch(getWorkoutPlans(id));
   }, [dispatch, id]);
 
-  
   useEffect(() => {
     if (successDelete) {
       window.location.reload();
     }
   }, [successDelete, dispatch]);
+
+  const [calendarPlugins, setCalendarPlugins] = useState([
+    dayGridPlugin,
+    listPlugin,
+  ]);
+
+  useEffect(() => {
+    if (userInfo.role === "member") {
+      setCalendarPlugins([dayGridPlugin, listPlugin]); // read-only mode for members
+    } else {
+      setCalendarPlugins([dayGridPlugin, interactionPlugin, listPlugin]); // interactive mode for other roles
+    }
+  }, [userInfo.role]);
 
   const events =
     workoutplansInfo.length > 0
@@ -111,9 +122,11 @@ export default function SingleWorkoutPlan() {
           title="Workout Plans"
           subtitle=" "
           button={
-            <Button variant="contained" onClick={() => setModalOpen(true)}>
-              Add Workout
-            </Button>
+            userInfo.role === "member" ? null : (
+              <Button variant="contained" onClick={() => setModalOpen(true)}>
+                Add Workout
+              </Button>
+            )
           }
         />
 
@@ -179,7 +192,7 @@ export default function SingleWorkoutPlan() {
           >
             <FullCalendar
               height="75vh"
-              plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
+              plugins={calendarPlugins}
               headerToolbar={{
                 left: "prev,next today",
                 center: "title",
