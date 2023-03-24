@@ -32,6 +32,7 @@ import SingleMemberProgress from "pages/membersProgress/SingleMemberProgress";
 import SingleWorkoutPlan from "pages/workoutPlans/SingleWorkoutPlan";
 import SingleDietPlan from "pages/dietPlans/SingleDietPlan";
 import PaymentInvoice from "pages/payment/PaymentInvoice";
+import ServiceOverview from "components/ServiceOverview";
 
 Modal.setAppElement("#root");
 
@@ -81,6 +82,7 @@ function App() {
               />
               <Route path="/diet_plans" element={<DietPlans />} />
               <Route path="/diet_plans/:id" element={<SingleDietPlan />} />
+              <Route path="/ie" element={<ServiceOverview />} />
             </Route>
           </Routes>
         </ThemeProvider>

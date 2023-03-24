@@ -12,6 +12,9 @@ import {
   SERVICE_DELETE_REQUEST,
   SERVICE_DELETE_SUCCESS,
   SERVICE_DELETE_FAIL,
+  SERVICE_OVERVIEW_REQUEST,
+  SERVICE_OVERVIEW_SUCCESS,
+  SERVICE_OVERVIEW_FAIL,
 } from "state/constants/serviceConstants";
 
 export const getServices = () => async (dispatch, getState) => {
@@ -157,6 +160,40 @@ export const deleteServices = (id) => async (dispatch, getState) => {
         : error.message;
     dispatch({
       type: SERVICE_DELETE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const getServiceOverview = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: SERVICE_OVERVIEW_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/services/overview`, config);
+
+    dispatch({
+      type: SERVICE_OVERVIEW_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: SERVICE_OVERVIEW_FAIL,
       payload: message,
     });
   }

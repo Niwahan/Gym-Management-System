@@ -13,6 +13,9 @@ import {
   SERVICE_DELETE_REQUEST,
   SERVICE_DELETE_SUCCESS,
   SERVICE_DELETE_FAIL,
+  SERVICE_OVERVIEW_REQUEST,
+  SERVICE_OVERVIEW_SUCCESS,
+  SERVICE_OVERVIEW_FAIL
 } from "state/constants/serviceConstants";
 
 export const serviceReducer = (state = { services: [] }, action) => {
@@ -66,6 +69,20 @@ export const serviceDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case SERVICE_DELETE_FAIL:
       return { loading: false, error: action.payload, success: false };
+    default:
+      return state;
+  }
+};
+
+export const ServiceOverviewReducer = (state = { serviceOverview: [] }, action) => {
+  switch (action.type) {
+    case SERVICE_OVERVIEW_REQUEST:
+      return { loading: true, servicesInfo: [] };
+    case SERVICE_OVERVIEW_SUCCESS:
+      return { loading: false, serviceOverviewInfo: action.payload };
+    case SERVICE_OVERVIEW_FAIL:
+      return { loading: false, error: action.payload };
+
     default:
       return state;
   }
