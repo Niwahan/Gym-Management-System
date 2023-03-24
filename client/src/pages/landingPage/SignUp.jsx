@@ -15,6 +15,8 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "state/actions/userActions";
+import { InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function Copyright(props) {
   return (
@@ -31,7 +33,6 @@ function Copyright(props) {
   );
 }
 
-
 export default function SignUp() {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export default function SignUp() {
   const [pic, setPic] = useState(
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   );
+  const [picMessage, setPicMessage] = useState();
   const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
@@ -56,6 +58,63 @@ export default function SignUp() {
       navigate("/");
     }
   }, [navigate, userInfo]);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleClickShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+  const handleMouseDownConfirmPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const postDetails = (pics) => {
+    if (
+      pics ===
+      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+    ) {
+      return setPicMessage("Please Select an Image");
+    }
+    setPicMessage(null);
+    if (
+      pics.type === "image/jpeg" ||
+      pics.type === "image/png" ||
+      pics.type === "image/jpg"
+    ) {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "gymbo_");
+      data.append("cloud_name", "niwahang");
+      fetch("https://api.cloudinary.com/v1_1/niwahang/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Failed to upload image");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setPic(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+          setPicMessage("Failed to upload image");
+        });
+    } else {
+      return setPicMessage("Please Select an Image");
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -123,11 +182,24 @@ export default function SignUp() {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -136,12 +208,42 @@ export default function SignUp() {
                   fullWidth
                   name="confirm_password"
                   label="Confirm Password"
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   id="confirm_password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowConfirmPassword}
+                          onMouseDown={handleMouseDownConfirmPassword}
+                          edge="end"
+                        >
+                          {showConfirmPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  type="file"
+                  fullWidth
+                  name="pic"
+                  label="Profile Picture"
+                  id="pic"
+                  accept=".jpg,.png,.jpeg"
+                  onChange={(e) => postDetails(e.target.files[0])}
+                />
+              </Grid>
+              {picMessage && <Alert severity="error">{picMessage}</Alert>}
             </Grid>
             <Button
               type="submit"
@@ -153,7 +255,12 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link component={RouterLink} to="/" variant="body2">
+                <Link
+                  component={RouterLink}
+                  to="/"
+                  variant="body2"
+                  sx={{ color: theme.palette.secondary[100] }}
+                >
                   Already have an account? Sign in
                 </Link>
               </Grid>

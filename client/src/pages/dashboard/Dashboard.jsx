@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "components/Header";
 import FlexBetween from "components/FlexBetween";
 import { Box, useTheme, useMediaQuery, Typography } from "@mui/material";
@@ -42,7 +42,7 @@ export default function Dashboard() {
     dispatch(getServices());
   }, [dispatch]);
 
-  const pageSize = 5;
+  const [pageSize, setPageSize] = useState(5);
   const columns = [
     {
       field: "name",
@@ -184,8 +184,9 @@ export default function Dashboard() {
             rows={membersInfo || []}
             columns={columns}
             sortModel={sortModel}
-            pagination={false}
             pageSize={pageSize}
+            rowsPerPageOptions={[5]}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           />
         </Box>
         <Box

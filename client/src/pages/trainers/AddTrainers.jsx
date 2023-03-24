@@ -6,8 +6,11 @@ import {
   Select,
   MenuItem,
   CircularProgress,
-  Alert,
+  Alert,  
+  InputAdornment,
+  IconButton
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 // import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import React, { useState, useEffect } from "react";
@@ -47,6 +50,16 @@ export default function AddTrainers() {
     setPhoneNumber("");
     setExperience("");
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -107,11 +120,23 @@ export default function AddTrainers() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )}}
             />
           </Grid>
           <Grid item xs={12}>

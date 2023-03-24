@@ -34,6 +34,7 @@ import SingleDietPlan from "pages/dietPlans/SingleDietPlan";
 import PaymentInvoice from "pages/payment/PaymentInvoice";
 import Announcements from "pages/announcements/Announcements";
 import CreateAnnouncements from "pages/announcements/CreateAnnouncements";
+import EditProfile from "pages/editProfile/EditProfile";
 
 Modal.setAppElement("#root");
 
@@ -53,6 +54,7 @@ function App() {
             <Route element={<Layout />}>
               {/* <Route path="/" element={<Navigate to="/dashboard" replace />}/> */}
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
               <Route path="/members" element={<Members />}></Route>
               <Route path="/members/add-members" element={<AddMembers />} />
               <Route path="/members/:id" element={<MemberDetails />} />
