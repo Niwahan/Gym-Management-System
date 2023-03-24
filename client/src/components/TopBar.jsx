@@ -8,7 +8,6 @@ import {
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
-import profileImage from "images/ProfileImage.jpg";
 import { getAnnouncements } from "state/actions/announcementActions";
 import {
   AppBar,
@@ -103,8 +102,8 @@ export default function TopBar(props) {
             onClose={handleNotificationClose}
             onClick={handleNotificationClose}
           >
-            {announcementsInfo?.map((notification) => (
-              <MenuItem key={notification.id}>{notification.title}</MenuItem>
+            {announcementsInfo?.map((notification, index) => (
+              <MenuItem key={index}>{notification.title}</MenuItem>
             ))}
             <MenuItem
               style={{
@@ -133,7 +132,7 @@ export default function TopBar(props) {
               <Box
                 component="img"
                 alt="profile"
-                src={profileImage}
+                src={userInfo.pic}
                 height="32px"
                 width="32px"
                 borderRadius="50%"
@@ -145,14 +144,14 @@ export default function TopBar(props) {
                   fontSize="0.85rem"
                   sx={{ color: theme.palette.secondary[100] }}
                 >
-                  {userInfo.name}
+                  {userInfo?.name}
                 </Typography>
                 <Typography
                   fontSize="0.75rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
-                  {userInfo.role.charAt(0).toUpperCase() +
-                    userInfo.role.slice(1).toLowerCase()}
+                  {userInfo?.role.charAt(0).toUpperCase() +
+                    userInfo?.role.slice(1).toLowerCase()}
                 </Typography>
               </Box>
               <ArrowDropDownOutlined
@@ -165,8 +164,26 @@ export default function TopBar(props) {
               onClose={handleClose}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
-              <MenuItem>Edit Profile</MenuItem>
-              <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  navigate("/edit-profile");
+                }}
+              >
+                Edit Profile
+              </MenuItem>
+              <MenuItem
+                onClick={logoutHandler}
+                style={{
+                  background: "#f5f5f5",
+                  color: "black",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  cursor: "pointer",
+                }}
+              >
+                Log Out
+              </MenuItem>
             </Menu>
           </FlexBetween>
         </FlexBetween>

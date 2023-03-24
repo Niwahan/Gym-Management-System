@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
+import { userLoginReducer, userRegisterReducer, userUpdateReducer } from "./reducers/userReducers";
 import globalReducer from "state/modeTogglerSlice";
 import {
   trainerCreateReducer,
@@ -62,6 +62,7 @@ const store = configureStore({
     global: globalReducer,
     userLogin: userLoginReducer,
     userRegistration: userRegisterReducer,
+    userUpdate: userUpdateReducer,
     trainers: trainerReducer,
     trainerCreate: trainerCreateReducer,
     trainerUpdate: trainerUpdateReducer,
