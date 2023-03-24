@@ -32,7 +32,8 @@ import SingleMemberProgress from "pages/membersProgress/SingleMemberProgress";
 import SingleWorkoutPlan from "pages/workoutPlans/SingleWorkoutPlan";
 import SingleDietPlan from "pages/dietPlans/SingleDietPlan";
 import PaymentInvoice from "pages/payment/PaymentInvoice";
-import ServiceOverview from "components/ServiceOverview";
+import Announcements from "pages/announcements/Announcements";
+import CreateAnnouncements from "pages/announcements/CreateAnnouncements";
 
 Modal.setAppElement("#root");
 
@@ -82,7 +83,11 @@ function App() {
               />
               <Route path="/diet_plans" element={<DietPlans />} />
               <Route path="/diet_plans/:id" element={<SingleDietPlan />} />
-              <Route path="/ie" element={<ServiceOverview />} />
+              <Route path="/announcements" element={<Announcements />} />
+              <Route
+                path="/announcements/create-announcements"
+                element={<CreateAnnouncements />}
+              />
             </Route>
           </Routes>
         </ThemeProvider>

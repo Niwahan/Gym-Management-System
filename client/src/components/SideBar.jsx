@@ -24,6 +24,7 @@ import {
   Loop,
   MonitorHeart,
   MonitorWeight,
+  Announcement
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -60,6 +61,10 @@ export default function SideBar({
     {
       text: "Attendance",
       icon: <TodayOutlined />,
+    },
+    {
+      text: "Announcements",
+      icon: <Announcement />,
     },
     {
       text: "Payments",

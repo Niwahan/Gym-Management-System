@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   LightModeOutlined,
   DarkModeOutlined,
   Menu as MenuIcon,
   ArrowDropDownOutlined,
+  Notifications,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
 import profileImage from "images/ProfileImage.jpg";
+import { getAnnouncements } from "state/actions/announcementActions";
 import {
   AppBar,
   IconButton,
@@ -18,6 +20,7 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Badge,
 } from "@mui/material";
 // For Theme
 import { setMode } from "state/modeTogglerSlice";
@@ -37,6 +40,24 @@ export default function TopBar(props) {
   const isOpen = Boolean(anchorEl);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
+  const [anchorEl2, setAnchorEl2] = useState(null);
+  const [open, setOpen] = useState(false);
+  const handleNotificationClick = (event) => {
+    setAnchorEl2(event.currentTarget);
+    setOpen(true);
+  };
+  const handleNotificationClose = () => {
+    setAnchorEl2(null);
+    setOpen(false);
+  };
+
+  const listAnnouncements = useSelector((state) => state.announcements);
+  const { announcementsInfo } = listAnnouncements;
+
+  useEffect(() => {
+    dispatch(getAnnouncements());
+  }, [dispatch]);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -71,6 +92,38 @@ export default function TopBar(props) {
               <LightModeOutlined sx={{ fontSize: "25px" }} />
             )}
           </IconButton>
+          {/* <IconButton color="inherit" onClick={}>
+            <Badge badgeContent={unreadNotifications} color="secondary">
+              <Notifications />
+            </Badge>
+          </IconButton> */}
+          <IconButton onClick={handleNotificationClick}>
+            <Badge badgeContent={announcementsInfo?.length} color="secondary">
+              <Notifications sx={{ fontSize: "25px" }} />
+            </Badge>
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl2}
+            open={open}
+            onClose={handleNotificationClose}
+            onClick={handleNotificationClose}
+          >
+            {announcementsInfo?.map((notification) => (
+              <MenuItem key={notification.id}>{notification.title}</MenuItem>
+            ))}
+            <MenuItem
+              style={{
+                background: "#f5f5f5",
+                color: "black",
+                fontWeight: "bold",
+                textAlign: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => navigate("/announcements")}
+            >
+              See all announcements
+            </MenuItem>
+          </Menu>
           <FlexBetween>
             <Button
               onClick={handleClick}

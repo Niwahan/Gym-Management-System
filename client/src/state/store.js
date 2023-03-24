@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
-// import { setupListeners } from "@reduxjs/toolkit/query";
 import globalReducer from "state/modeTogglerSlice";
 import {
   trainerCreateReducer,
@@ -42,6 +41,11 @@ import {
   dietplanUpdateReducer,
 } from "./reducers/dietPlanReducers";
 import { makePaymentReducer } from "./reducers/paymentReducers";
+import {
+  announcementCreateReducer,
+  announcementDeleteReducer,
+  announcementReducer,
+} from "./reducers/announcementReducers";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -86,6 +90,9 @@ const store = configureStore({
     dietPlanDelete: dietplanDeleteReducer,
     makePayment: makePaymentReducer,
     serviceOverview: ServiceOverviewReducer,
+    announcements: announcementReducer,
+    announcementCreate: announcementCreateReducer,
+    announcementDelete: announcementDeleteReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();
@@ -94,6 +101,5 @@ const store = configureStore({
   preloadedState: initialState,
   devTools: true,
 });
-// setupListeners(store.dispatch);
 
 export default store;
