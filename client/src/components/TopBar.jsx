@@ -92,11 +92,6 @@ export default function TopBar(props) {
               <LightModeOutlined sx={{ fontSize: "25px" }} />
             )}
           </IconButton>
-          {/* <IconButton color="inherit" onClick={}>
-            <Badge badgeContent={unreadNotifications} color="secondary">
-              <Notifications />
-            </Badge>
-          </IconButton> */}
           <IconButton onClick={handleNotificationClick}>
             <Badge badgeContent={announcementsInfo?.length} color="secondary">
               <Notifications sx={{ fontSize: "25px" }} />
@@ -170,6 +165,7 @@ export default function TopBar(props) {
               onClose={handleClose}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
+              <MenuItem>Edit Profile</MenuItem>
               <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
             </Menu>
           </FlexBetween>
