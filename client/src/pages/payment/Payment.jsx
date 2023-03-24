@@ -38,19 +38,14 @@ export default function Payment() {
       field: "amount",
       headerName: "Amount",
       flex: 0.5,
-      valueGetter: (params) => {
-        return params.row.service.price
-          ? params.row.service.price + " per month"
-          : "No Price";
-      },
+      valueGetter: (membersInfo) =>
+        membersInfo.row.service.price + " per month",
     },
     {
       field: "plan",
       headerName: "Plan",
       flex: 0.5,
-      valueGetter: (params) => {
-        return params.row.plan ? params.row.plan + " month/s" : "No Plan";
-      },
+      valueGetter: (membersInfo) => membersInfo.row.plan + " month/s",
     },
     {
       field: "paidDate",
