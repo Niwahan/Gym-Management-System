@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import Header from "components/Header";
 import { Box, Button, Typography, Divider, Grid, Paper } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { getServices } from "state/actions/serviceActions";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 
 export default function PaymentInvoice() {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [serviceName, setServiceName] = useState("");
   const [plan, setPlan] = useState(0);
@@ -30,7 +27,6 @@ export default function PaymentInvoice() {
     };
     fetching();
   }, [id]);
-
 
   const amountPayable = price * plan;
   const handlePrintInvoice = () => {
@@ -76,11 +72,13 @@ export default function PaymentInvoice() {
               }}
               id="invoice-content"
             >
-              <Grid >
+              <Grid>
                 <Typography variant="h3">Payment Receipt</Typography>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item xs={6}> </Grid>
+                <Grid item xs={6}>
+                  {" "}
+                </Grid>
                 <Grid item xs={6} sx={{ textAlign: "right" }}>
                   <Typography variant="subtitle1">
                     Invoice No. {Math.floor(Math.random() * 9000000 + 100000)}

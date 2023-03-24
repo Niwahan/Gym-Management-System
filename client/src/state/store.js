@@ -11,6 +11,7 @@ import {
 import {
   serviceCreateReducer,
   serviceDeleteReducer,
+  ServiceOverviewReducer,
   serviceReducer,
   serviceUpdateReducer,
 } from "./reducers/serviceReducers";
@@ -84,6 +85,7 @@ const store = configureStore({
     dietPlanUpdate: dietplanUpdateReducer,
     dietPlanDelete: dietplanDeleteReducer,
     makePayment: makePaymentReducer,
+    serviceOverview: ServiceOverviewReducer,
   },
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware();

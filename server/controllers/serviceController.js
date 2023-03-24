@@ -60,17 +60,6 @@ export const updateService = asyncHandler(async (req, res) => {
   }
 });
 
-export const deleteEquipment = asyncHandler(async (req, res) => {
-  const equipment = await Equipment.findById(req.params.id);
-
-  if (equipment) {
-    await equipment.remove();
-    res.json({ message: "Equipment removed" });
-  } else {
-    res.status(404).json({ message: "Equipment not found" });
-  }
-});
-
 export const deleteService = asyncHandler(async (req, res) => {
   const service = await Service.findById(req.params.id);
 
@@ -80,4 +69,25 @@ export const deleteService = asyncHandler(async (req, res) => {
   } else {
     res.status(404).json({ message: "Service not found" });
   }
+});
+
+export const getServiceOverview = asyncHandler(async (req, res) => {
+  const services = await Service.aggregate([
+    {
+      $lookup: {
+        from: "members", // the name of the member model
+        localField: "_id",
+        foreignField: "service",
+        as: "members",
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        memberCount: { $size: "$members" },
+      },
+    },
+  ]);
+  res.json(services);
 });

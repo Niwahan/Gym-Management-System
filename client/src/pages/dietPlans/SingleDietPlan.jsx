@@ -129,7 +129,7 @@ export default function SingleDietPlan() {
             ml="25px"
             mr="25px"
           >
-            <Typography variant="h5">Diets</Typography>
+            <Typography variant="h5">Diets for Today</Typography>
             <List>
               {filteredEvents.map((event) => (
                 <ListItem
