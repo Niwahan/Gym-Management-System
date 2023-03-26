@@ -31,7 +31,6 @@ function Copyright(props) {
   );
 }
 
-
 export default function SignIn() {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -110,14 +109,21 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link component={RouterLink} to="/signup" variant="body2" sx={{ color: theme.palette.secondary[100] }}>
+                <Link
+                  component={RouterLink}
+                  to="/signup"
+                  variant="body2"
+                  sx={{ color: theme.palette.secondary[100] }}
+                >
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright
+          sx={{ mt: 8, mb: 4, pl:17, position: "fixed", bottom: 0, alignItems: "center",  }}
+        />
       </Container>
     </ThemeProvider>
   );

@@ -46,7 +46,7 @@ export default function Announcements() {
     <>
       <Box m="1.5rem 2.5rem">
         <Header
-          title="Manage Announcements"
+          title="Announcements"
           subtitle=""
           button={
             userInfo.role !== "admin" ? null : (
