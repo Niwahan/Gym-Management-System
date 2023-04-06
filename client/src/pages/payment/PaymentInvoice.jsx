@@ -1,16 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Header from "components/Header";
 import { Box, Button, Typography, Divider, Grid, Paper } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import UserContext from "components/UserContext";
+import { useSelector } from "react-redux";
 
 export default function PaymentInvoice() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [name, setName] = useState("");
   const [serviceName, setServiceName] = useState("");
   const [plan, setPlan] = useState(0);
   const [price, setPrice] = useState(0);
   const paidDate = new Date().toLocaleDateString();
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   useEffect(() => {
     const fetching = async () => {

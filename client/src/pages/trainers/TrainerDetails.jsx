@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "components/Header";
 import {
   Box,
@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { deleteTrainers, updateTrainers } from "state/actions/trainerActions";
+import UserContext from "components/UserContext";
 
 export default function TrainerDetails() {
   const { id } = useParams();
@@ -35,6 +36,20 @@ export default function TrainerDetails() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const trainerUpdate = useSelector((state) => state.trainerUpdate);
   const { loading, error, success } = trainerUpdate;

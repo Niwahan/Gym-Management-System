@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -6,12 +6,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Header from "components/Header";
 import { getServices } from "state/actions/serviceActions";
+import UserContext from "components/UserContext";
 
 export default function Services() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(5);
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const listServices = useSelector((state) => state.services);
   const { loading, error, servicesInfo } = listServices;

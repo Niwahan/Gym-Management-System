@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
+import UserContext from "components/UserContext";
 
 export default function WorkoutPlans() {
   const theme = useTheme();
@@ -20,14 +21,25 @@ export default function WorkoutPlans() {
     dispatch(getMembers());
   }, [dispatch]);
 
+  const userRole = useContext(UserContext);
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin" && userRole !== "trainer") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const filteredMembers = membersInfo?.filter(
     (member) => member.trainer._id === userInfo.trainerId
   );
 
-  if (userInfo.role === "member") {
+  if (userInfo?.role === "member") {
     const memberId = userInfo.memberId;
     return <Navigate to={`/workout_plans/${memberId}`} />;
   }
@@ -109,7 +121,7 @@ export default function WorkoutPlans() {
             error={error}
             getRowId={(row) => row._id}
             rows={
-              userInfo.role === "trainer"
+              userInfo?.role === "trainer"
                 ? filteredMembers || []
                 : membersInfo || []
             }

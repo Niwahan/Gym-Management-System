@@ -141,16 +141,14 @@ export default function SideBar({
               {filteredNavItems.map(({ text, icon }) => {
                 const lcText = text.toLowerCase().replace(" ", "_");
                 let shouldDisplayNavItem = true;
-                if (userInfo.role === "member") {
+                if (userInfo?.role === "member") {
                   shouldDisplayNavItem = [
-                    "dashboard",
                     "workout_plans",
                     "diet_plans",
                     "announcements"
                   ].includes(lcText);
-                } else if (userInfo.role === "trainer") {
+                } else if (userInfo?.role === "trainer") {
                   shouldDisplayNavItem = [
-                    "dashboard",
                     "members_progress",
                     "workout_plans",
                     "diet_plans",

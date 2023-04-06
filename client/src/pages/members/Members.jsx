@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -6,12 +6,28 @@ import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
 import { useState } from "react";
+import UserContext from "components/UserContext";
 
 export default function Members() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
+
+  const userRole = useContext(UserContext);
+
+  console.log(userRole);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;

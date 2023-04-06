@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -6,12 +6,27 @@ import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getTrainers } from "state/actions/trainerActions";
 import { useState } from "react";
+import UserContext from "components/UserContext";
 
 export default function Trainers() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const listTrainers = useSelector((state) => state.trainers);
   const { loading, error, trainersInfo } = listTrainers;

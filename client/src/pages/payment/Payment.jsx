@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
@@ -7,12 +7,27 @@ import { getMembers } from "state/actions/memberActions";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { makePayment } from "state/actions/paymentActions";
+import UserContext from "components/UserContext";
 
 export default function Payment() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;
@@ -65,18 +80,36 @@ export default function Payment() {
       field: "actions",
       headerName: "Actions",
       flex: 0.5,
-      renderCell: (params) => (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            dispatch(makePayment(params.row._id));
-            navigate(`/payments/${params.row._id}`);
-          }}
-        >
-          Make Payment
-        </Button>
-      ),
+      renderCell: (params) => {
+        const payments = params.row.payment || [];
+        const latestPayment = payments.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        )[0];
+        const lastPaidDate = latestPayment
+          ? new Date(latestPayment.date)
+          : null;
+        const planMonths = params.row.plan;
+        const futureDate = lastPaidDate
+          ? new Date(
+              lastPaidDate.setMonth(lastPaidDate.getMonth() + planMonths)
+            )
+          : null;
+        const currentDate = new Date();
+        const isButtonDisabled = futureDate && futureDate > currentDate;
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              dispatch(makePayment(params.row._id));
+              navigate(`/payments/${params.row._id}`);
+            }}
+            disabled={isButtonDisabled}
+          >
+            {isButtonDisabled ? "Payment Already Done" : "Make Payment"}
+          </Button>
+        );
+      },
     },
   ];
 

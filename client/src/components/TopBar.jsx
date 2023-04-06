@@ -132,7 +132,7 @@ export default function TopBar(props) {
               <Box
                 component="img"
                 alt="profile"
-                src={userInfo.pic}
+                src={userInfo?.pic}
                 height="32px"
                 width="32px"
                 borderRadius="50%"

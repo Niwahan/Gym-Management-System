@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Header from "components/Header";
 import FlexBetween from "components/FlexBetween";
 import { Box, useTheme, useMediaQuery, Typography } from "@mui/material";
@@ -17,11 +17,30 @@ import { getServices } from "state/actions/serviceActions";
 import IEChart from "components/IEChart";
 import ServiceOverview from "components/ServiceOverview";
 import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import UserContext from "components/UserContext";
 
 export default function Dashboard() {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    } else if (userRole === undefined) {
+      window.location.reload();
+      return;
+    } else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;

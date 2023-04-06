@@ -16,9 +16,9 @@ export default function ServiceOverview() {
   }, [dispatch]);
   const colors = [
     theme.palette.secondary[500],
+    theme.palette.secondary[200],
     theme.palette.secondary[300],
-    theme.palette.secondary[300],
-    theme.palette.secondary[500],
+    theme.palette.secondary[400],
   ];
 
   const formattedData = serviceOverviewInfo

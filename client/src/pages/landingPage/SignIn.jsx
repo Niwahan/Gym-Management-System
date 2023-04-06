@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -43,8 +42,10 @@ export default function SignIn() {
   const { loading, error, userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo?.role === "admin") {
       navigate("/dashboard");
+    } else if (userInfo?.role === "trainer" || userInfo?.role === "member") {
+      navigate("/announcements");
     }
   }, [navigate, userInfo]);
 
@@ -121,9 +122,7 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright
-          sx={{ mt: 8, mb: 4, pl:17, position: "fixed", bottom: 0, alignItems: "center",  }}
-        />
+        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

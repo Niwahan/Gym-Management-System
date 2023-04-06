@@ -1,4 +1,4 @@
-import * as React from "react";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -49,15 +49,19 @@ export default function SignUp() {
 
   const dispatch = useDispatch();
 
+  const userLogin = useSelector((state) => state.userLogin);
+
+  const { userInfo: user } = userLogin;
+
   const userRegistration = useSelector((state) => state.userRegistration);
 
-  const { userInfo, loading, error } = userRegistration;
+  const { loading, error } = userRegistration;
 
   useEffect(() => {
-    if (userInfo) {
+    if (user) {
       navigate("/");
     }
-  }, [navigate, userInfo]);
+  }, [navigate, user]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

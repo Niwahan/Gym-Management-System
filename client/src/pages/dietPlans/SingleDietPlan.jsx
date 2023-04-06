@@ -15,18 +15,25 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import DietModalDialog from "components/DietModalDialog";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDietPlans, deleteDietPlans } from "state/actions/dietPlanActions";
 
 export default function SingleDietPlan() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const theme = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+  }, [userInfo, navigate]);
 
   const listDietPlans = useSelector((state) => state.dietPlan);
   const { dietplansInfo } = listDietPlans;

@@ -11,9 +11,11 @@ import Header from "../../components/Header";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "state/actions/userActions";
+import { useNavigate } from "react-router-dom";
 
 export default function EditProfile() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -25,6 +27,13 @@ export default function EditProfile() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+  }, [userInfo, navigate]);
 
   const userUpdate = useSelector((state) => state.userUpdate);
   const { loading, error } = userUpdate;

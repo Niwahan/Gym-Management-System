@@ -14,10 +14,20 @@ import {
   deleteAnnouncements,
   getAnnouncements,
 } from "state/actions/announcementActions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Announcements() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+  }, [userInfo, navigate]);
 
   const listAnnouncements = useSelector((state) => state.announcements);
   const { announcementsInfo } = listAnnouncements;
@@ -25,9 +35,6 @@ export default function Announcements() {
   useEffect(() => {
     dispatch(getAnnouncements());
   }, [dispatch]);
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
 
   const announcementDelete = useSelector((state) => state.announcementDelete);
   const { success } = announcementDelete;
@@ -49,7 +56,7 @@ export default function Announcements() {
           title="Announcements"
           subtitle=""
           button={
-            userInfo.role !== "admin" ? null : (
+            userInfo?.role !== "admin" ? null : (
               <Button
                 component={Link}
                 to="/announcements/create-announcements"

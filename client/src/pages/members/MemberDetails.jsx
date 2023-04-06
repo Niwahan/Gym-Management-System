@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "components/Header";
 import {
   Box,
@@ -17,6 +17,7 @@ import axios from "axios";
 import { deleteMembers, updateMembers } from "state/actions/memberActions";
 import { getTrainers } from "state/actions/trainerActions";
 import { getServices } from "state/actions/serviceActions";
+import UserContext from "components/UserContext";
 
 export default function MemberDetails() {
   const { id } = useParams();
@@ -41,6 +42,20 @@ export default function MemberDetails() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const memberUpdate = useSelector((state) => state.memberUpdate);
   const { loading, error, success } = memberUpdate;

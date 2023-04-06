@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import UserContext from "components/UserContext";
 
 export default function MembersProgress() {
   const theme = useTheme();
@@ -13,13 +13,26 @@ export default function MembersProgress() {
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
 
+  const userRole = useContext(UserContext);
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin" && userRole !== "trainer") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;
 
-  const filteredMembers = membersInfo?.filter(member => member.trainer._id === userInfo.trainerId);
+  const filteredMembers = membersInfo?.filter(
+    (member) => member.trainer._id === userInfo.trainerId
+  );
 
   useEffect(() => {
     dispatch(getMembers());
@@ -125,7 +138,11 @@ export default function MembersProgress() {
             loading={loading || !membersInfo}
             error={error}
             getRowId={(row) => row._id}
-            rows={userInfo.role === 'trainer' ? filteredMembers || [] : membersInfo || []}
+            rows={
+              userInfo.role === "trainer"
+                ? filteredMembers || []
+                : membersInfo || []
+            }
             columns={columns}
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 15, 20]}

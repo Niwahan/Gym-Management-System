@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "components/Header";
 import {
   Box,
@@ -15,6 +15,7 @@ import {
   deleteEquipments,
   updateEquipments,
 } from "state/actions/equipmentActions";
+import UserContext from "components/UserContext";
 
 export default function EquipmentDetails() {
   const { id } = useParams();
@@ -27,6 +28,20 @@ export default function EquipmentDetails() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const equipmentUpdate = useSelector((state) => state.equipmentUpdate);
   const { loading, error, success } = equipmentUpdate;

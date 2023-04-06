@@ -14,16 +14,31 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 // import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createMembers } from "state/actions/memberActions";
 import { getTrainers } from "state/actions/trainerActions";
 import { getServices } from "state/actions/serviceActions";
 import { useNavigate } from "react-router-dom";
+import UserContext from "components/UserContext";
 
 export default function AddMembers() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");

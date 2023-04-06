@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "components/Header";
 import {
   Box,
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { deleteServices, updateServices } from "state/actions/serviceActions";
+import UserContext from "components/UserContext";
 
 export default function ServiceDetails() {
   const { id } = useParams();
@@ -22,6 +23,20 @@ export default function ServiceDetails() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const userRole = useContext(UserContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+    else if (userRole !== "admin") {
+      navigate("/unauthorized");
+    }
+  }, [userRole, userInfo, navigate]);
 
   const serviceUpdate = useSelector((state) => state.serviceUpdate);
   const { loading, error, success } = serviceUpdate;

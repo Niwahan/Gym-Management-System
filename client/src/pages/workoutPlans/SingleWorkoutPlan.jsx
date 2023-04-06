@@ -16,7 +16,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import WorkoutModalDialog from "components/WorkoutModalDialog";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   deleteWorkoutPlans,
   getWorkoutPlans,
@@ -25,11 +25,18 @@ import {
 export default function SingleWorkoutPlan() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const theme = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    }
+  }, [ userInfo, navigate]);
 
   const listWorkoutPlans = useSelector((state) => state.workoutPlan);
   const { workoutplansInfo } = listWorkoutPlans;
