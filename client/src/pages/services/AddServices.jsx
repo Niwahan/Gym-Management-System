@@ -6,34 +6,28 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-// import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createServices } from "state/actions/serviceActions";
-import UserContext from "components/UserContext";
 
 export default function AddServices() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-    // const isNonMobile = useMediaQuery("(min-width:600px)");
 
-    const userRole = useContext(UserContext);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-    const userLogin = useSelector((state) => state.userLogin);
-    const { userInfo } = userLogin;
-  
-    useEffect(() => {
-      if (!userInfo) {
-        navigate("/loginRequired");
-      }
-      else if (userRole !== "admin") {
-        navigate("/unauthorized");
-      }
-    }, [userRole, userInfo, navigate]);
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/loginRequired");
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
+      navigate("/unauthorized");
+    }
+  }, [userInfo, navigate]);
 
   const dispatch = useDispatch();
 
@@ -103,6 +97,7 @@ export default function AddServices() {
               name="price"
               label="Price"
               id="price"
+              type="number"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />

@@ -8,13 +8,12 @@ import {
   TableBody,
 } from "@mui/material";
 import axios from "axios";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, useTheme } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { updateMembersProgress } from "state/actions/memberProgressActions";
-import UserContext from "components/UserContext";
 
 export default function SingleMemberProgress() {
   const { id } = useParams();
@@ -28,8 +27,6 @@ export default function SingleMemberProgress() {
   const [initialBodyType, setInitialBodyType] = useState("");
   const [finalBodyType, setFinalBodyType] = useState("");
 
-  const userRole = useContext(UserContext);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -37,10 +34,10 @@ export default function SingleMemberProgress() {
     if (!userInfo) {
       navigate("/loginRequired");
     }
-    else if (userRole !== "admin" || userRole !== "trainer") {
+    else if (userInfo.role === "member") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const memberProgressUpdate = useSelector(
     (state) => state.memberProgressUpdate

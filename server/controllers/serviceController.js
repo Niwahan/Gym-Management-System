@@ -39,13 +39,6 @@ export const getServiceById = asyncHandler(async (req, res) => {
 
 export const updateService = asyncHandler(async (req, res) => {
   const { name, description, price } = req.body;
-
-  // const userExists = await User.findOne({ email });
-  // if (userExists) {
-  //   res.status(400);
-  //   throw new Error("Email is already in use");
-  // }
-
   const service = await Service.findById(req.params.id);
 
   if (service) {
@@ -75,7 +68,7 @@ export const getServiceOverview = asyncHandler(async (req, res) => {
   const services = await Service.aggregate([
     {
       $lookup: {
-        from: "members", // the name of the member model
+        from: "members",
         localField: "_id",
         foreignField: "service",
         as: "members",

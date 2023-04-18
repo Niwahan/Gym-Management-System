@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "components/Header";
 import {
   Box,
@@ -17,7 +17,6 @@ import axios from "axios";
 import { deleteMembers, updateMembers } from "state/actions/memberActions";
 import { getTrainers } from "state/actions/trainerActions";
 import { getServices } from "state/actions/serviceActions";
-import UserContext from "components/UserContext";
 
 export default function MemberDetails() {
   const { id } = useParams();
@@ -37,13 +36,12 @@ export default function MemberDetails() {
     6: "Six Months",
     12: "One Year",
   };
+  const [message, setMessage] = useState("");
 
   const [editMode, setEditMode] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -51,11 +49,10 @@ export default function MemberDetails() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    }
-    else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const memberUpdate = useSelector((state) => state.memberUpdate);
   const { loading, error, success } = memberUpdate;
@@ -97,7 +94,6 @@ export default function MemberDetails() {
   const {
     loading: loadingDelete,
     error: errorDelete,
-    // success: successDelete,
   } = memberDelete;
 
   const deleteHandler = (id) => {
@@ -111,6 +107,22 @@ export default function MemberDetails() {
 
   const updateHandler = (e) => {
     e.preventDefault();
+    const phoneNumberRegex = /^[0-9]{10}$/;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      setMessage("Invalid phone number. Please enter a 10-digit number.");
+      return;
+    }
+    if (
+      !name ||
+      !email ||
+      !address ||
+      !phoneNumber ||
+      !gender ||
+      !trainer ||
+      !service ||
+      !plan
+    )
+      return;
     dispatch(
       updateMembers(
         id,
@@ -134,17 +146,6 @@ export default function MemberDetails() {
         }
       )
     );
-    if (
-      !name ||
-      !email ||
-      !address ||
-      !phoneNumber ||
-      !gender ||
-      !trainer ||
-      !service ||
-      !plan
-    )
-      return;
   };
 
   useEffect(() => {
@@ -186,6 +187,7 @@ export default function MemberDetails() {
         />
         {loadingDelete && <CircularProgress />}
         {errorDelete && <Alert severity="error">{errorDelete}</Alert>}
+        {message && <Alert severity="error">{message}</Alert>}
         {!editMode && (
           <Box mt="40px">
             <Button

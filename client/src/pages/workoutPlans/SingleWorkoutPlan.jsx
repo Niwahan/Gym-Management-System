@@ -61,9 +61,9 @@ export default function SingleWorkoutPlan() {
 
   useEffect(() => {
     if (userInfo.role === "member") {
-      setCalendarPlugins([dayGridPlugin, listPlugin]); // read-only mode for members
+      setCalendarPlugins([dayGridPlugin, listPlugin]);
     } else {
-      setCalendarPlugins([dayGridPlugin, interactionPlugin, listPlugin]); // interactive mode for other roles
+      setCalendarPlugins([dayGridPlugin, interactionPlugin, listPlugin]);
     }
   }, [userInfo.role]);
 
@@ -82,7 +82,7 @@ export default function SingleWorkoutPlan() {
       : [];
 
   const handleEventClick = (selected) => {
-    const workoutPlanId = selected.event.id; // get the id of the selected event
+    const workoutPlanId = selected.event.id;
     if (
       window.confirm(
         `Are you sure you want to delete the workout '${selected.event.title}'`

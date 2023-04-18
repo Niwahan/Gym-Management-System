@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
@@ -6,15 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
-import UserContext from "components/UserContext";
 
 export default function DietPlans() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
-
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -23,10 +20,10 @@ export default function DietPlans() {
     if (!userInfo) {
       navigate("/loginRequired");
     }
-    else if (userRole !== "admin" && userRole !== "trainer") {
+    else if (userInfo.role === "member") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;

@@ -14,21 +14,17 @@ export const createPayment = asyncHandler(async (req, res) => {
       select: "name price",
     });
 
-    // Calculate total payment amount
     const plan = member.plan;
     const pricePerMonth = member.service.price;
     const totalAmount = pricePerMonth * plan;
 
-    // Create new payment
     const payment = {
       amount: totalAmount,
       date: new Date(),
     };
 
-    // Add payment to member's payment array
     member.payment.push(payment);
 
-     // Create invoice
      const invoice = {
         member: member.user.name,
         email: member.user.email,
@@ -39,10 +35,8 @@ export const createPayment = asyncHandler(async (req, res) => {
         date: new Date(),
       };
 
-    // Save member
     await member.save();
 
-    // res.status(201).json(payment);
     res.status(201).json(invoice);
   } catch (error) {
     console.error(error);

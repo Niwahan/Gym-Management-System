@@ -77,26 +77,41 @@ export default function Announcements() {
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {announcementsInfo?.map((announcement) => (
-              <TableRow key={announcement._id}>
-                <TableCell>{new Date(announcement.date).toLocaleDateString()}</TableCell>
-                <TableCell>{announcement.title}</TableCell>
-                <TableCell>{announcement.message}</TableCell>
-                {userInfo.role === "admin" && (
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => handleDelete(announcement._id)}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                )}
+          {announcementsInfo?.length === 0 ? (
+            <TableBody>
+              <TableRow>
+                <TableCell
+                  style={{ height: "200px", textAlign: "center" }}
+                  colSpan={3}
+                >
+                  No announcements to Display
+                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
+            </TableBody>
+          ) : (
+            <TableBody>
+              {announcementsInfo?.map((announcement) => (
+                <TableRow key={announcement._id}>
+                  <TableCell>
+                    {new Date(announcement.date).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>{announcement.title}</TableCell>
+                  <TableCell>{announcement.message}</TableCell>
+                  {userInfo.role === "admin" && (
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => handleDelete(announcement._id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
       </Box>
     </>

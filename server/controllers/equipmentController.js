@@ -7,7 +7,7 @@ export const getEquipment = asyncHandler(async (req, res) => {
 });
 
 export const createEquipment = asyncHandler(async (req, res) => {
-  const { name, description, quantity, price, purchasedDate } = req.body;
+  const { name, quantity, price, purchasedDate } = req.body;
 
   const itemExists = await Equipment.findOne({ name });
 
@@ -16,13 +16,12 @@ export const createEquipment = asyncHandler(async (req, res) => {
     throw new Error("Equipment already exists");
   }
 
-  if (!name || !description || !quantity || !price || !purchasedDate) {
+  if (!name || !quantity || !price || !purchasedDate) {
     res.status(400);
     throw new Error("Please fill all the fields");
   } else {
     const equipment = new Equipment({
       name,
-      description,
       quantity,
       price,
       purchasedDate,
@@ -44,14 +43,12 @@ export const getEquipmentById = asyncHandler(async (req, res) => {
 });
 
 export const updateEquipment = asyncHandler(async (req, res) => {
-  const { name, description, quantity, price, purchasedDate } = req.body;
+  const { name, quantity, price, purchasedDate } = req.body;
 
   const equipment = await Equipment.findById(req.params.id);
 
   if (equipment) {
-    // Update the Equipment model
     equipment.name = name || equipment.name;
-    equipment.description = description || equipment.description;
     equipment.quantity = quantity || equipment.quantity;
     equipment.price = price || equipment.price;
     equipment.purchasedDate = purchasedDate || equipment.purchasedDate;

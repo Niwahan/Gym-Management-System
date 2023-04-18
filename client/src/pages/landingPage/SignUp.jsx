@@ -1,4 +1,3 @@
-
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -40,7 +39,6 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // eslint-disable-next-line
   const [pic, setPic] = useState(
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   );
@@ -55,13 +53,13 @@ export default function SignUp() {
 
   const userRegistration = useSelector((state) => state.userRegistration);
 
-  const { loading, error } = userRegistration;
+  const { loading, success, error } = userRegistration;
 
   useEffect(() => {
-    if (user) {
+    if (user || success) {
       navigate("/");
     }
-  }, [navigate, user]);
+  }, [navigate, user, success]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -127,8 +125,8 @@ export default function SignUp() {
       setMessage("Passowrds do not match");
     } else {
       setMessage(null);
+      dispatch(register(name, email, password, pic));
     }
-    dispatch(register(name, email, password, pic));
   };
 
   return (
@@ -237,7 +235,6 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   type="file"
                   fullWidth
                   name="pic"

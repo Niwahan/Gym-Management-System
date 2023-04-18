@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const hour = new Date().getHours();
-const isDarkMode = hour >= 18 || hour < 6; // set to dark mode between 6pm and 6am
+const isDarkMode = hour >= 18 || hour < 6;
 
 export const globalSlice = createSlice({
   name: "global",
   initialState: {
-    mode: isDarkMode ? "dark" : "light", // set initial mode based on system time
+    mode: isDarkMode ? "dark" : "light",
   },
   reducers: {
     setMode: (state) => {

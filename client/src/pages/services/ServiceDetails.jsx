@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "components/Header";
 import {
   Box,
@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { deleteServices, updateServices } from "state/actions/serviceActions";
-import UserContext from "components/UserContext";
 
 export default function ServiceDetails() {
   const { id } = useParams();
@@ -24,19 +23,16 @@ export default function ServiceDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userRole = useContext(UserContext);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    }
-    else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const serviceUpdate = useSelector((state) => state.serviceUpdate);
   const { loading, error, success } = serviceUpdate;
@@ -57,11 +53,7 @@ export default function ServiceDetails() {
   }, [id]);
 
   const serviceDelete = useSelector((state) => state.serviceDelete);
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    // success: successDelete,
-  } = serviceDelete;
+  const { loading: loadingDelete, error: errorDelete } = serviceDelete;
 
   const deleteHandler = (id) => {
     dispatch(deleteServices(id));
@@ -162,6 +154,7 @@ export default function ServiceDetails() {
                   name="price"
                   label="Price"
                   id="price"
+                  type="number"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 />

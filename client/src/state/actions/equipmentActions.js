@@ -49,7 +49,7 @@ export const getEquipments = () => async (dispatch, getState) => {
 };
 
 export const createEquipments =
-  (name, description, quantity, price, purchasedDate) =>
+  (name, quantity, price, purchasedDate) =>
   async (dispatch, getState) => {
     try {
       dispatch({
@@ -69,7 +69,7 @@ export const createEquipments =
 
       const { data } = await axios.post(
         `/api/equipments/create`,
-        { name, description, quantity, price, purchasedDate },
+        { name, quantity, price, purchasedDate },
         config
       );
 
@@ -90,7 +90,7 @@ export const createEquipments =
   };
 
 export const updateEquipments =
-  (id, name, description, quantity, price, purchasedDate) =>
+  (id, name, quantity, price, purchasedDate) =>
   async (dispatch, getState) => {
     try {
       dispatch({
@@ -110,7 +110,7 @@ export const updateEquipments =
 
       const { data } = await axios.put(
         `/api/equipments/${id}`,
-        { name, description, quantity, price, purchasedDate },
+        { name, quantity, price, purchasedDate },
         config
       );
 

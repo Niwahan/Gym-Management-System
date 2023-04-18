@@ -58,7 +58,6 @@ export const updateTrainer = asyncHandler(async (req, res) => {
   );
 
   if (trainer) {
-    // Update the User model
     const user = await User.findById(trainer.user._id);
     if (name) {
       user.name = name;
@@ -66,16 +65,8 @@ export const updateTrainer = asyncHandler(async (req, res) => {
     if (email) {
       user.email = email;
     }
-    // throw new Error("Email is already in use");
-    //   else{
-    //     // if (userExists) {
-    //     //   res.status(400);
-    //     // }
-
-    // }
     await user.save();
 
-    // Update the Trainer model
     trainer.address = address || trainer.address;
     trainer.phoneNumber = phoneNumber || trainer.phoneNumber;
     trainer.experience = experience || trainer.experience;

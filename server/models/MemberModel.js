@@ -22,7 +22,7 @@ const WorkoutSchema = mongoose.Schema({
   },
   exercises: [
     {
-      _id: false, // disable automatic _id generation
+      _id: false,
       name: {
         type: String,
         required: true,
@@ -79,9 +79,7 @@ const MemberSchema = new mongoose.Schema(
     address: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     dateOfRegistration: { type: Date, required: true },
-    paidDate: { type: Date },
     plan: { type: Number },
-    status: { type: String },
     attendance: {
       type: [Date],
       default: [],

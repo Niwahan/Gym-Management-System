@@ -9,24 +9,20 @@ import {
   Alert,
   InputLabel,
   InputAdornment,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-// import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createMembers } from "state/actions/memberActions";
 import { getTrainers } from "state/actions/trainerActions";
 import { getServices } from "state/actions/serviceActions";
 import { useNavigate } from "react-router-dom";
-import UserContext from "components/UserContext";
 
 export default function AddMembers() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -34,11 +30,10 @@ export default function AddMembers() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    }
-    else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -50,7 +45,7 @@ export default function AddMembers() {
   const [serviceId, setService] = useState("");
   const [dateOfRegistration, setDateOfRegistration] = useState("");
   const [plan, setPlan] = useState("");
-  // const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [message, setMessage] = useState("");
 
   const planOptions = {
     1: "One Month",
@@ -80,7 +75,7 @@ export default function AddMembers() {
   };
 
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -90,6 +85,23 @@ export default function AddMembers() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const phoneNumberRegex = /^[0-9]{10}$/;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      setMessage("Invalid phone number. Please enter a 10-digit number.");
+      return;
+    }
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !address ||
+      !phoneNumber ||
+      !gender ||
+      !trainerId ||
+      !serviceId ||
+      !plan
+    )
+      return;
     dispatch(
       createMembers(
         name,
@@ -104,18 +116,6 @@ export default function AddMembers() {
         plan
       )
     );
-    if (
-      !name ||
-      !email ||
-      !password ||
-      !address ||
-      !phoneNumber ||
-      !gender ||
-      !trainerId ||
-      !serviceId ||
-      !plan
-    )
-      return;
   };
 
   useEffect(() => {
@@ -155,6 +155,7 @@ export default function AddMembers() {
       </Box>
       {loading && <CircularProgress />}
       {error && <Alert severity="error">{error}</Alert>}
+      {message && <Alert severity="error">{message}</Alert>}
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -207,7 +208,8 @@ export default function AddMembers() {
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                )}}
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -247,6 +249,7 @@ export default function AddMembers() {
               name="phoneNumber"
               label="Phone Number"
               id="phoneNumber"
+              type="number"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
@@ -7,15 +7,12 @@ import { getMembers } from "state/actions/memberActions";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { makePayment } from "state/actions/paymentActions";
-import UserContext from "components/UserContext";
 
 export default function Payment() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
-
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -24,10 +21,10 @@ export default function Payment() {
     if (!userInfo) {
       navigate("/loginRequired");
     }
-    else if (userRole !== "admin") {
+    else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;

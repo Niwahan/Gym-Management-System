@@ -21,9 +21,7 @@ import {
   MenuItem,
   Badge,
 } from "@mui/material";
-// For Theme
 import { setMode } from "state/modeTogglerSlice";
-
 import { useNavigate } from "react-router-dom";
 import { logout } from "state/actions/userActions";
 

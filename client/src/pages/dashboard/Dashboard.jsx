@@ -34,10 +34,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    } else if (userRole === undefined) {
-      window.location.reload();
-      return;
-    } else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
   }, [userRole, userInfo, navigate]);

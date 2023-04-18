@@ -28,12 +28,6 @@ export default function DietModalDialog({ isOpen, onClose }) {
       totalCalories: 0,
     },
   ]);
-  // const [mealItems, setMealItems] = useState([
-  //   {
-  //     name: "",
-  //     calories: 0,
-  //   },
-  // ]);
 
   const dietPlanCreate = useSelector((state) => state.dietPlanCreate);
   const { success } = dietPlanCreate;
@@ -56,7 +50,6 @@ export default function DietModalDialog({ isOpen, onClose }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     dispatch(createDietPlans(id, title, date, meals));
-    // console.log(id, title, date, meals);
   };
 
   const addMeal = () => {

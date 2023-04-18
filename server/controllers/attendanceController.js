@@ -3,8 +3,7 @@ import Member from "../models/MemberModel.js";
 
 export const takeAttendance = asyncHandler(async (req, res) => {
   const { _id } = req.body;
-  const currentDate = new Date().toISOString().split("T")[0]; // get current date in yyyy-mm-dd format
-
+  const currentDate = new Date().toISOString().split("T")[0];
   try {
     const member = await Member.findById(_id);
     if (!member) {

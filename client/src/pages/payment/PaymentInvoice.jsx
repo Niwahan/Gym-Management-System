@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "components/Header";
 import { Box, Button, Typography, Divider, Grid, Paper } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import UserContext from "components/UserContext";
 import { useSelector } from "react-redux";
 
 export default function PaymentInvoice() {
@@ -15,8 +14,6 @@ export default function PaymentInvoice() {
   const [price, setPrice] = useState(0);
   const paidDate = new Date().toLocaleDateString();
 
-  const userRole = useContext(UserContext);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -24,10 +21,10 @@ export default function PaymentInvoice() {
     if (!userInfo) {
       navigate("/loginRequired");
     }
-    else if (userRole !== "admin") {
+    else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   useEffect(() => {
     const fetching = async () => {

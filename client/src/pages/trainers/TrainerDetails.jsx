@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "components/Header";
 import {
   Box,
@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { deleteTrainers, updateTrainers } from "state/actions/trainerActions";
-import UserContext from "components/UserContext";
 
 export default function TrainerDetails() {
   const { id } = useParams();
@@ -32,12 +31,11 @@ export default function TrainerDetails() {
   const handleExperienceChange = (event) => {
     setExperience(event.target.value);
   };
+  const [message, setMessage] = useState("");
   const [editMode, setEditMode] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -45,11 +43,10 @@ export default function TrainerDetails() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    }
-    else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const trainerUpdate = useSelector((state) => state.trainerUpdate);
   const { loading, error, success } = trainerUpdate;
@@ -75,7 +72,6 @@ export default function TrainerDetails() {
   const {
     loading: loadingDelete,
     error: errorDelete,
-    // success: successDelete,
   } = trainerDelete;
 
   const deleteHandler = (id) => {
@@ -89,6 +85,15 @@ export default function TrainerDetails() {
 
   const updateHandler = (e) => {
     e.preventDefault();
+    const phoneNumberRegex = /^[0-9]{10}$/;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      setMessage("Invalid phone number. Please enter a 10-digit number.");
+      return;
+    }
+
+    if (!name || !email || !address || !phoneNumber || !experience) {
+      return;
+    }
     dispatch(
       updateTrainers(id, name, email, address, phoneNumber, experience, () => {
         setName(name);
@@ -124,6 +129,7 @@ export default function TrainerDetails() {
         />
         {loadingDelete && <CircularProgress />}
         {errorDelete && <Alert severity="error">{errorDelete}</Alert>}
+        {message && <Alert severity="error">{message}</Alert>}
         {!editMode && (
           <Box mt="40px">
             <Button
@@ -193,6 +199,7 @@ export default function TrainerDetails() {
                   name="phoneNumber"
                   label="Phone Number"
                   id="phoneNumber"
+                  type="number"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />

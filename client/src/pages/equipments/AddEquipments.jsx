@@ -6,26 +6,23 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-// import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createEquipments } from "state/actions/equipmentActions";
-import UserContext from "components/UserContext";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function AddEquipments() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
-  const [purchasedDate, setPurchasedDate] = useState("");
-  //   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [quantity, setQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [purchasedDate, setPurchasedDate] = useState(null);
 
   const dispatch = useDispatch();
-
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -33,29 +30,25 @@ export default function AddEquipments() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    }
-    else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const equipmentCreate = useSelector((state) => state.equipmentCreate);
   const { loading, error, success } = equipmentCreate;
 
   const resetHandler = () => {
     setName("");
-    setDescription("");
     setQuantity("");
     setPrice("");
-    setPurchasedDate("");
+    setPurchasedDate(null);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(
-      createEquipments(name, description, quantity, price, purchasedDate)
-    );
-    if (!name || !description || !quantity || !price || !purchasedDate) return;
+    dispatch(createEquipments(name, quantity, price, purchasedDate));
+    if (!name || !quantity || !price || !purchasedDate) return;
   };
   useEffect(() => {
     if (success) {
@@ -94,21 +87,10 @@ export default function AddEquipments() {
             <TextField
               required
               fullWidth
-              name="description"
-              label="Description"
-              type="text"
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
               name="quantity"
               label="Quantity"
               id="quantity"
+              type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
             />
@@ -120,20 +102,22 @@ export default function AddEquipments() {
               name="price"
               label="Price"
               id="price"
+              type="number"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="purchasedDate"
-              label="Purchased Date"
-              id="purchasedDate"
-              value={purchasedDate}
-              onChange={(e) => setPurchasedDate(e.target.value)}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Purchased Date"
+                value={purchasedDate}
+                onChange={(date) => {
+                  setPurchasedDate(date);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
           </Grid>
         </Grid>
         <Button

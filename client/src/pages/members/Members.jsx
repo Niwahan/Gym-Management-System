@@ -1,12 +1,10 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMembers } from "state/actions/memberActions";
-import { useState } from "react";
-import UserContext from "components/UserContext";
 
 export default function Members() {
   const theme = useTheme();
@@ -14,9 +12,6 @@ export default function Members() {
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(10);
 
-  const userRole = useContext(UserContext);
-
-  console.log(userRole);
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -24,10 +19,10 @@ export default function Members() {
     if (!userInfo) {
       navigate("/loginRequired");
     }
-    else if (userRole !== "admin") {
+    else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;
@@ -37,11 +32,6 @@ export default function Members() {
   }, [dispatch]);
 
   const columns = [
-    {
-      field: "_id",
-      headerName: "ID",
-      flex: 1,
-    },
     {
       field: "name",
       headerName: "Full Name",

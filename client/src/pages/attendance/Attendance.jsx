@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { Box, Button, useTheme, CircularProgress, Alert } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
@@ -7,7 +7,6 @@ import { getMembers } from "state/actions/memberActions";
 import { memberAttendanceCheckin } from "state/actions/attendanceActions";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import UserContext from "components/UserContext";
 
 export default function Attendance() {
   const theme = useTheme();
@@ -17,8 +16,6 @@ export default function Attendance() {
   const [clickedMembers, setClickedMembers] = useState({});
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-  const userRole = useContext(UserContext);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -26,10 +23,10 @@ export default function Attendance() {
     if (!userInfo) {
       navigate("/loginRequired");
     }
-    else if (userRole !== "admin") {
+    else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const listMembers = useSelector((state) => state.members);
   const { loading, error, membersInfo } = listMembers;
@@ -46,7 +43,6 @@ export default function Attendance() {
     setIsFirstLoad(false);
   }, [dispatch]);
 
-  // Only dispatch the getMembers action if the page is not loaded for the first time
 useEffect(() => {
   if (!isFirstLoad && successAttendance) {
     dispatch(getMembers());
@@ -157,7 +153,6 @@ useEffect(() => {
             pageSize={pageSize}
             rowsPerPageOptions={[5, 10, 15, 20]}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            // components={{ Toolbar: GridToolbar }}
           />
         </Box>
       </Box>

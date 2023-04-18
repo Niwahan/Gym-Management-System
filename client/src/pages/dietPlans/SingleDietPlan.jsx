@@ -60,9 +60,8 @@ export default function SingleDietPlan() {
 
   useEffect(() => {
     if (userInfo.role === "member") {
-      setCalendarPlugins([dayGridPlugin, listPlugin]); // read-only mode for members
-    } else {
-      setCalendarPlugins([dayGridPlugin, interactionPlugin, listPlugin]); // interactive mode for other roles
+      setCalendarPlugins([dayGridPlugin, listPlugin]); 
+      setCalendarPlugins([dayGridPlugin, interactionPlugin, listPlugin]);
     }
   }, [userInfo.role]);
 
@@ -139,7 +138,7 @@ export default function SingleDietPlan() {
           button={
             userInfo.role === "member" ? null : (
               <Button variant="contained" onClick={() => setModalOpen(true)}>
-                Add Workout
+                Add Diet
               </Button>
             )
           }

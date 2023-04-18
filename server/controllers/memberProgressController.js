@@ -15,7 +15,6 @@ export const updateProgress = asyncHandler(async (req, res) => {
       select: "name",
     });
   if (member) {
-    // Update the Member model
     member.initialWeight = initialWeight || member.initialWeight;
     member.finalWeight = finalWeight || member.finalWeight;
     member.initialBodyType = initialBodyType || member.initialBodyType;

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Header from "components/Header";
 import { getEquipments } from "state/actions/equipmentActions";
-import UserContext from "components/UserContext";
 
 export default function Equipments() {
   const theme = useTheme();
@@ -14,7 +13,6 @@ export default function Equipments() {
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(5);
 
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -22,11 +20,10 @@ export default function Equipments() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    }
-    else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const listEquipments = useSelector((state) => state.equipments);
   const { loading, error, equipmentsInfo } = listEquipments;
@@ -37,18 +34,8 @@ export default function Equipments() {
 
   const columns = [
     {
-      field: "_id",
-      headerName: "ID",
-      flex: 1,
-    },
-    {
       field: "name",
       headerName: "Name",
-      flex: 1,
-    },
-    {
-      field: "description",
-      headerName: "Description",
       flex: 1,
     },
     {
@@ -65,6 +52,10 @@ export default function Equipments() {
       field: "purchasedDate",
       headerName: "Purchased Date",
       flex: 1,
+      valueFormatter: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleDateString();
+      },
     },
     {
       field: "actions",

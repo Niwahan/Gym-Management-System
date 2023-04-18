@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -11,7 +11,6 @@ import Header from "../../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createAnnouncements } from "state/actions/announcementActions";
-import UserContext from "components/UserContext";
 
 export default function CreateAnnouncements() {
   const [title, setTitle] = useState("");
@@ -20,8 +19,6 @@ export default function CreateAnnouncements() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userRole = useContext(UserContext);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -29,10 +26,10 @@ export default function CreateAnnouncements() {
     if (!userInfo) {
       navigate("/loginRequired");
     }
-    else if (userRole !== "admin") {
+    else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const announcementCreate = useSelector((state) => state.announcementCreate);
   const { loading, error, success } = announcementCreate;

@@ -6,18 +6,16 @@ import {
   Select,
   MenuItem,
   CircularProgress,
-  Alert,  
+  Alert,
   InputAdornment,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-// import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTrainers } from "state/actions/trainerActions";
 import { useNavigate } from "react-router-dom";
-import UserContext from "components/UserContext";
 
 export default function AddTrainers() {
   const experienceOptions = [
@@ -36,11 +34,9 @@ export default function AddTrainers() {
   const handleExperienceChange = (event) => {
     setExperience(event.target.value);
   };
-  //   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
-
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -48,11 +44,10 @@ export default function AddTrainers() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    }
-    else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const trainerCreate = useSelector((state) => state.trainerCreate);
   const { loading, error, success } = trainerCreate;
@@ -75,15 +70,31 @@ export default function AddTrainers() {
     event.preventDefault();
   };
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const phoneNumberRegex = /^[0-9]{10}$/;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      setMessage("Invalid phone number. Please enter a 10-digit number.");
+      return;
+    }
+
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !address ||
+      !phoneNumber ||
+      !experience
+    ) {
+      return;
+    }
+
     dispatch(
       createTrainers(name, email, password, address, phoneNumber, experience)
     );
-    if (!name || !email || !password || !address || !phoneNumber || !experience)
-      return;
   };
+
   useEffect(() => {
     if (success) {
       dispatch({ type: "TRAINER_CREATE_RESET" });
@@ -99,6 +110,7 @@ export default function AddTrainers() {
       </Box>
       {loading && <CircularProgress />}
       {error && <Alert severity="error">{error}</Alert>}
+      {message && <Alert severity="error">{message}</Alert>}
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -151,7 +163,8 @@ export default function AddTrainers() {
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                )}}
+                ),
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -173,6 +186,7 @@ export default function AddTrainers() {
               name="phoneNumber"
               label="Phone Number"
               id="phoneNumber"
+              type="number"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />

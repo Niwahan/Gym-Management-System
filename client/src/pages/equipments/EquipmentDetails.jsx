@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "components/Header";
 import {
   Box,
@@ -15,21 +15,21 @@ import {
   deleteEquipments,
   updateEquipments,
 } from "state/actions/equipmentActions";
-import UserContext from "components/UserContext";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 export default function EquipmentDetails() {
   const { id } = useParams();
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
-  const [purchasedDate, setPurchasedDate] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [purchasedDate, setPurchasedDate] = useState(new Date());
   const [editMode, setEditMode] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const userRole = useContext(UserContext);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -37,11 +37,10 @@ export default function EquipmentDetails() {
   useEffect(() => {
     if (!userInfo) {
       navigate("/loginRequired");
-    }
-    else if (userRole !== "admin") {
+    } else if (userInfo.role === "member" || userInfo.role === "trainer") {
       navigate("/unauthorized");
     }
-  }, [userRole, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const equipmentUpdate = useSelector((state) => state.equipmentUpdate);
   const { loading, error, success } = equipmentUpdate;
@@ -52,7 +51,6 @@ export default function EquipmentDetails() {
         const { data } = await axios.get(`/api/equipments/${id}`);
 
         setName(data.name);
-        setDescription(data.description);
         setQuantity(data.quantity);
         setPrice(data.price);
         setPurchasedDate(data.purchasedDate);
@@ -63,11 +61,12 @@ export default function EquipmentDetails() {
     fetching();
   }, [id]);
 
+  const formattedDate = new Date(purchasedDate)?.toLocaleDateString();
+
   const equipmentDelete = useSelector((state) => state.equipmentDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
-    // success: successDelete,
   } = equipmentDelete;
 
   const deleteHandler = (id) => {
@@ -81,24 +80,20 @@ export default function EquipmentDetails() {
 
   const updateHandler = (e) => {
     e.preventDefault();
+    const selectedDate = new Date(purchasedDate);
+    const currentDate = new Date();
+    if (selectedDate.getTime() > currentDate.getTime()) {
+      return;
+    }
+    if (!name || !quantity || !price || !purchasedDate) return;
     dispatch(
-      updateEquipments(
-        id,
-        name,
-        description,
-        quantity,
-        price,
-        purchasedDate,
-        () => {
-          setName(name);
-          setDescription(description);
-          setQuantity(quantity);
-          setPrice(price);
-          setPurchasedDate(purchasedDate);
-        }
-      )
+      updateEquipments(id, name, quantity, price, purchasedDate, () => {
+        setName(name);
+        setQuantity(quantity);
+        setPrice(price);
+        setPurchasedDate(purchasedDate);
+      })
     );
-    if (!name || !description || !quantity || !price || !purchasedDate) return;
   };
 
   useEffect(() => {
@@ -133,10 +128,9 @@ export default function EquipmentDetails() {
               Edit Equipment
             </Button>
             <h3>Name: {name}</h3>
-            <h3>Description: {description}</h3>
             <h3>Quantity: {quantity}</h3>
             <h3>Price: {price}</h3>
-            <h3>Purchased Date: {purchasedDate}</h3>
+            <h3>Purchased Date: {formattedDate}</h3>
           </Box>
         )}
         {editMode && (
@@ -164,21 +158,10 @@ export default function EquipmentDetails() {
                 <TextField
                   required
                   fullWidth
-                  name="description"
-                  label="description"
-                  type="text"
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
                   name="quantity"
                   label="Quantity"
                   id="quantity"
+                  type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                 />
@@ -190,20 +173,22 @@ export default function EquipmentDetails() {
                   name="price"
                   label="Price"
                   id="price"
+                  type="number"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="purchasedDate"
-                  label="Purchased Date"
-                  id="purchasedDate"
-                  value={purchasedDate}
-                  onChange={(e) => setPurchasedDate(e.target.value)}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Purchased Date"
+                    value={dayjs(purchasedDate)}
+                    onChange={(date) => {
+                      setPurchasedDate(date);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
               </Grid>
             </Grid>
             <Button

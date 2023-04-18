@@ -117,12 +117,6 @@ export const updateMember = asyncHandler(async (req, res) => {
     plan,
   } = req.body;
 
-  // const userExists = await User.findOne({ email });
-  // if (userExists) {
-  //   res.status(400);
-  //   throw new Error("Email is already in use");
-  // }
-
   const member = await Member.findById(req.params.id)
     .populate({
       path: "user",
@@ -142,7 +136,6 @@ export const updateMember = asyncHandler(async (req, res) => {
     });
 
   if (member) {
-    // Update the User model
     const user = await User.findById(member.user._id);
     if (name) {
       user.name = name;
@@ -152,7 +145,6 @@ export const updateMember = asyncHandler(async (req, res) => {
     }
     await user.save();
 
-    // Update the Member model
     member.gender = gender || member.gender;
     member.address = address || member.address;
     member.phoneNumber = phoneNumber || member.phoneNumber;

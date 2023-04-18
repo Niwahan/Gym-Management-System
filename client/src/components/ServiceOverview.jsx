@@ -15,10 +15,12 @@ export default function ServiceOverview() {
     dispatch(getServiceOverview());
   }, [dispatch]);
   const colors = [
-    theme.palette.secondary[500],
-    theme.palette.secondary[200],
-    theme.palette.secondary[300],
-    theme.palette.secondary[400],
+    "#F47A1F",
+    "#FDBB2F",
+    "#377B2B",
+    "#7AC142",
+    "#007CC3",
+    "#00529B",
   ];
 
   const formattedData = serviceOverviewInfo
@@ -47,11 +49,6 @@ export default function ServiceOverview() {
                 stroke: theme.palette.secondary[200],
               },
             },
-            legend: {
-              text: {
-                fill: theme.palette.secondary[200],
-              },
-            },
             ticks: {
               line: {
                 stroke: theme.palette.secondary[200],
@@ -60,11 +57,6 @@ export default function ServiceOverview() {
               text: {
                 fill: theme.palette.secondary[200],
               },
-            },
-          },
-          legends: {
-            text: {
-              fill: theme.palette.secondary[200],
             },
           },
           tooltip: {
@@ -91,31 +83,6 @@ export default function ServiceOverview() {
           from: "color",
           modifiers: [["darker", 2]],
         }}
-        legends={[
-          {
-            anchor: "bottom",
-            direction: "row",
-            justify: false,
-            translateX: 20,
-            translateY: 50,
-            itemsSpacing: 0,
-            itemWidth: 85,
-            itemHeight: 18,
-            itemTextColor: "#999",
-            itemDirection: "left-to-right",
-            itemOpacity: 1,
-            symbolSize: 18,
-            symbolShape: "circle",
-            effects: [
-              {
-                on: "hover",
-                style: {
-                  itemTextColor: theme.palette.primary[500],
-                },
-              },
-            ],
-          },
-        ]}
       />
       <Box
         position="absolute"
