@@ -45,10 +45,34 @@ export default function PaymentInvoice() {
   const amountPayable = price * plan;
   const handlePrintInvoice = () => {
     const invoiceContent = document.getElementById("invoice-content");
-    const originalContents = document.body.innerHTML;
-    document.body.innerHTML = invoiceContent.innerHTML;
-    window.print();
-    document.body.innerHTML = originalContents;
+
+    // Create a new window or iframe
+    const printWindow = window.open("", "_blank");
+    const printDocument = printWindow.document;
+    
+    // Write the invoice content into the new window or iframe
+    printDocument.open();
+    printDocument.write(`
+      <html>
+        <head>
+          <title>Print Invoice</title>
+        </head>
+        <body>
+          ${invoiceContent.innerHTML}
+          <script type="text/javascript">
+            window.onload = function() {
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printDocument.close();
+  
+    // Close the new window or iframe after printing
+    printWindow.onafterprint = function() {
+      printWindow.close();
+    };
   };
 
   return (
