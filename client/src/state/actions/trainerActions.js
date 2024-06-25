@@ -30,7 +30,7 @@ export const getTrainers = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/trainers`, config);
+    const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/trainers`, config);
 
     dispatch({
       type: TRAINER_SUCCESS,
@@ -68,7 +68,7 @@ export const createTrainers =
       };
 
       const { data } = await axios.post(
-        `/api/trainers/create`,
+        process.env.REACT_APP_BASE_URL + `/api/trainers/create`,
         { name, email, password, address, phoneNumber, experience },
         config
       );
@@ -109,7 +109,7 @@ export const updateTrainers =
       };
 
       const { data } = await axios.put(
-        `/api/trainers/${id}`,
+        process.env.REACT_APP_BASE_URL + `/api/trainers/${id}`,
         { name, email, address, phoneNumber, experience },
         config
       );
@@ -146,7 +146,7 @@ export const deleteTrainers = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/trainers/${id}`, config);
+    const { data } = await axios.delete(process.env.REACT_APP_BASE_URL + `/api/trainers/${id}`, config);
 
     dispatch({
       type: TRAINER_DELETE_SUCCESS,

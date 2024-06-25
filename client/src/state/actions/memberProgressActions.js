@@ -25,7 +25,7 @@ export const updateMembersProgress =
       };
 
       const { data } = await axios.put(
-        `/api/membersProgress/${id}`,
+        process.env.REACT_APP_BASE_URL + `/api/membersProgress/${id}`,
         {
           initialWeight,
           finalWeight,

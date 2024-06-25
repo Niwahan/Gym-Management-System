@@ -40,7 +40,7 @@ export default function ServiceDetails() {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const { data } = await axios.get(`/api/services/${id}`);
+        const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/services/${id}`);
 
         setName(data.name);
         setDescription(data.description);

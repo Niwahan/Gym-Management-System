@@ -16,7 +16,7 @@ export const memberAttendanceCheckin = (_id) => async (dispatch) => {
     };
 
     const { data } = await axios.put(
-      `/api/attendance/checkin`,
+      process.env.REACT_APP_BASE_URL + `/api/attendance/checkin`,
       { _id },
       config
     );

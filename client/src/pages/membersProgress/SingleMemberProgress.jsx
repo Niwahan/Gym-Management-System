@@ -66,7 +66,7 @@ export default function SingleMemberProgress() {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const { data } = await axios.get(`/api/members/${id}`);
+        const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/members/${id}`);
 
         setName(data.user.name);
         setServiceName(data.service.name);

@@ -30,7 +30,7 @@ export const getWorkoutPlans = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/workoutPlan/${id}`, config);
+    const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/workoutPlan/${id}`, config);
 
     dispatch({
       type: WORKOUTPLAN_SUCCESS,
@@ -67,7 +67,7 @@ export const createWorkoutPlans =
       };
 
       const { data } = await axios.post(
-        `/api/workoutPlan/${memberId}`,
+        process.env.REACT_APP_BASE_URL + `/api/workoutPlan/${memberId}`,
         { title, date, exercises },
         config
       );
@@ -108,7 +108,7 @@ export const updateWorkoutPlans =
       };
 
       const { data } = await axios.put(
-        `/api/workoutPlan/${memberId}/${workoutId}`,
+        process.env.REACT_APP_BASE_URL + `/api/workoutPlan/${memberId}/${workoutId}`,
         { title, date, exercises },
         config
       );
@@ -147,7 +147,7 @@ export const deleteWorkoutPlans =
       };
 
       const { data } = await axios.delete(
-        `/api/workoutPlan/${memberId}/${workoutId}`,
+        process.env.REACT_APP_BASE_URL + `/api/workoutPlan/${memberId}/${workoutId}`,
         config
       );
 

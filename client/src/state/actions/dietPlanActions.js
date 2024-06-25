@@ -30,7 +30,7 @@ export const getDietPlans = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/dietPlan/${id}`, config);
+    const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/dietPlan/${id}`, config);
 
     dispatch({
       type: DIETPLAN_SUCCESS,
@@ -67,7 +67,7 @@ export const createDietPlans =
       };
 
       const { data } = await axios.post(
-        `/api/dietPlan/${memberId}`,
+        process.env.REACT_APP_BASE_URL + `/api/dietPlan/${memberId}`,
         { title, date, meals },
         config
       );
@@ -107,7 +107,7 @@ export const updateDietPlans =
       };
 
       const { data } = await axios.put(
-        `/api/dietPlan/${memberId}/${dietId}`,
+        process.env.REACT_APP_BASE_URL + `/api/dietPlan/${memberId}/${dietId}`,
         { title, date, meals },
         config
       );
@@ -146,7 +146,7 @@ export const deleteDietPlans =
       };
 
       const { data } = await axios.delete(
-        `/api/dietPlan/${memberId}/${dietId}`,
+        process.env.REACT_APP_BASE_URL + `/api/dietPlan/${memberId}/${dietId}`,
         config
       );
 

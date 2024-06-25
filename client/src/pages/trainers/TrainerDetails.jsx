@@ -54,7 +54,7 @@ export default function TrainerDetails() {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const { data } = await axios.get(`/api/trainers/${id}`);
+        const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/trainers/${id}`);
 
         setName(data.user.name);
         setEmail(data.user.email);

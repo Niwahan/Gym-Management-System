@@ -22,7 +22,7 @@ export const makePayment = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/payment/${id}`, config);
+    const { data } = await axios.post(process.env.REACT_APP_BASE_URL + `/api/payment/${id}`, config);
 
     dispatch({
       type: PAYMENT_SUCCESS,

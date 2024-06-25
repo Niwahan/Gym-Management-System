@@ -30,7 +30,7 @@ export const getMembers = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/members`, config);
+    const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/members`, config);
 
     dispatch({
       type: MEMBER_SUCCESS,
@@ -79,7 +79,7 @@ export const createMembers =
       };
 
       const { data } = await axios.post(
-        `/api/members/create`,
+        process.env.REACT_APP_BASE_URL + `/api/members/create`,
         {
           name,
           email,
@@ -131,7 +131,7 @@ export const updateMembers =
       };
 
       const { data } = await axios.put(
-        `/api/members/${id}`,
+        process.env.REACT_APP_BASE_URL + `/api/members/${id}`,
         {
           name,
           email,
@@ -177,7 +177,7 @@ export const deleteMembers = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/members/${id}`, config);
+    const { data } = await axios.delete(process.env.REACT_APP_BASE_URL + `/api/members/${id}`, config);
 
     dispatch({
       type: MEMBER_DELETE_SUCCESS,

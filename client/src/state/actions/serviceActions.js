@@ -33,7 +33,7 @@ export const getServices = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/services`, config);
+    const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/services`, config);
 
     dispatch({
       type: SERVICE_SUCCESS,
@@ -70,7 +70,7 @@ export const createServices =
       };
 
       const { data } = await axios.post(
-        `/api/services/create`,
+        process.env.REACT_APP_BASE_URL + `/api/services/create`,
         { name, description, price },
         config
       );
@@ -110,7 +110,7 @@ export const updateServices =
       };
 
       const { data } = await axios.put(
-        `/api/services/${id}`,
+        process.env.REACT_APP_BASE_URL + `/api/services/${id}`,
         { name, description, price },
         config
       );
@@ -147,7 +147,7 @@ export const deleteServices = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/services/${id}`, config);
+    const { data } = await axios.delete(process.env.REACT_APP_BASE_URL + `/api/services/${id}`, config);
 
     dispatch({
       type: SERVICE_DELETE_SUCCESS,
@@ -181,7 +181,7 @@ export const getServiceOverview = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/services/overview`, config);
+    const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/services/overview`, config);
 
     dispatch({
       type: SERVICE_OVERVIEW_SUCCESS,

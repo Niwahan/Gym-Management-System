@@ -48,7 +48,7 @@ export default function EquipmentDetails() {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const { data } = await axios.get(`/api/equipments/${id}`);
+        const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/equipments/${id}`);
 
         setName(data.name);
         setQuantity(data.quantity);

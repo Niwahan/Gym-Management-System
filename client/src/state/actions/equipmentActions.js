@@ -30,7 +30,7 @@ export const getEquipments = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/equipments`, config);
+    const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/equipments`, config);
 
     dispatch({
       type: EQUIPMENT_SUCCESS,
@@ -68,7 +68,7 @@ export const createEquipments =
       };
 
       const { data } = await axios.post(
-        `/api/equipments/create`,
+        process.env.REACT_APP_BASE_URL + `/api/equipments/create`,
         { name, quantity, price, purchasedDate },
         config
       );
@@ -109,7 +109,7 @@ export const updateEquipments =
       };
 
       const { data } = await axios.put(
-        `/api/equipments/${id}`,
+        process.env.REACT_APP_BASE_URL + `/api/equipments/${id}`,
         { name, quantity, price, purchasedDate },
         config
       );
@@ -146,7 +146,7 @@ export const deleteEquipments = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/equipments/${id}`, config);
+    const { data } = await axios.delete(process.env.REACT_APP_BASE_URL + `/api/equipments/${id}`, config);
 
     dispatch({
       type: EQUIPMENT_DELETE_SUCCESS,

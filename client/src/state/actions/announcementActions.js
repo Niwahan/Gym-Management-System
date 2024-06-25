@@ -27,7 +27,7 @@ export const getAnnouncements = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/announcements`, config);
+    const { data } = await axios.get(process.env.REACT_APP_BASE_URL + `/api/announcements`, config);
 
     dispatch({
       type: ANNOUNCEMENT_SUCCESS,
@@ -64,7 +64,7 @@ export const createAnnouncements =
       };
 
       const { data } = await axios.post(
-        `/api/announcements/create`,
+        process.env.REACT_APP_BASE_URL + `/api/announcements/create`,
         { title, message },
         config
       );
@@ -101,7 +101,7 @@ export const deleteAnnouncements = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/announcements/${id}`, config);
+    const { data } = await axios.delete(process.env.REACT_APP_BASE_URL + `/api/announcements/${id}`, config);
 
     dispatch({
       type: ANNOUNCEMENT_DELETE_SUCCESS,
