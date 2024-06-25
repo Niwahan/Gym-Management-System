@@ -31,8 +31,8 @@ The Gym Management System is tailored to streamline the management of gym member
 
 ## Deployment
 The application is deployed using Heroku for the backend and Netlify for the frontend, leveraging the strengths of both platforms to ensure high availability and continuous integration/deployment.
-- **Frontend:** [Gym Management System UI](https://gym-management-system.netlify.app)
-- **Backend:** Heroku
+- **Frontend:** Netlify [niwa-gym-management-system.netlify.app](https://niwa-gym-management-system.netlify.app/)
+- **Backend:** Render
 
 For more details on deployment strategies and configurations, refer to the deployment sections in the respective platform documentation.
 
